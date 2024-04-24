@@ -1,0 +1,11 @@
+{
+	"workbench.colorCustomizations": {
+		"activityBar.background": "#1b7ad8",
+		"activityBar.inactiveForeground": "#000000",
+		"titleBar.activeBackground": "#2b4cf4",
+		"titleBar.activeForeground": "#FFFCFD"
+	},
+	"logViewer.watch": [
+		"**/*.gdlog" //workaround to see godot console logs.  see devenv/setup.md for more info
+	],
+}
