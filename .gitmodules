@@ -1,6 +1,6 @@
 [submodule "addons/GDebugPanelGodot"]
 	path = addons/GDebugPanelGodot
 	url = https://github.com/Guillemsc/GDebugPanelGodot.git
-[submodule "project/test1/addons/TerraBrush"]
-	path = project/test1/addons/TerraBrush
+[submodule "addons/TerraBrush"]
+	path = addons/TerraBrush
 	url = https://github.com/spimort/TerraBrush
