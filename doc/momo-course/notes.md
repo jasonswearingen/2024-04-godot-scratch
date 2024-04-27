@@ -18,6 +18,11 @@ This enables debugging, console logs, and hot-reload.
    - then open the `out.log` in some tool that can auto-scroll to the last line.   I use the VSCode extension "**Log Viewer**" which works great.
      - Configure `Log Viewer`: edit your `settings.json` and add a `logViewer.watch` node with a wildcard like `"./**/*.log"`
  
+TLDR:
+- executable path: `bin\Godot_v4.2.2-stable_mono_win64\Godot_v4.2.2-stable_mono_win64.exe`
+- cmdline args:  `--path . --verbose >out.gdlog 2>&1`
+- working dir: `.`
+- 
 ## Attaching a library project
 1. Add library project as normal library
 2. reference godot assemblies via nuget
