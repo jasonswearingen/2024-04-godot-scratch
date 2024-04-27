@@ -2,7 +2,11 @@
 param(
 	[Parameter(Mandatory = $true)]
 	[string]$DestinationProjectName,
-	[string[]]$SourceFolders = @("GDebugPanelGodot", "TerraBrush\addons\terrabrush")
+	[string[]]$SourceFolders = @(
+		"GDebugPanelGodot",
+		"TerraBrush\addons\terrabrush",
+		"godot_debug_draw_3d\addons\debug_draw_3d"
+	)
 )
 
 Write-Host "# Resolve the full path of the destination directory"

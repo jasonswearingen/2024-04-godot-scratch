@@ -31,11 +31,23 @@ public partial class Player : CharacterBody3D
 		cameraMount.Position = new Vector3(0, 1.4f, 0);
 		AddChild(cameraMount);
 
-		var camera = new Camera3D();
-		camera.Position = new Vector3(1, 0.25f, 2f);
+		
+      camera = new Camera3D();
+      camera.Position = new Vector3(0.75f, 0.25f, 1.75f);
 		//camera.RotateY(Mathf.DegToRad(180));
 		cameraMount.AddChild(camera);
 		
+   }
+   Camera3D camera;
+
+   public override void _Process(double delta)
+   {
+      base._Process(delta);
+
+		using (DebugDraw3D.NewScopedConfig().SetThickness(0.001f))
+		{
+			DebugDraw3D.DrawCameraFrustum(camera, Colors.Red);
+		}
    }
 
 
