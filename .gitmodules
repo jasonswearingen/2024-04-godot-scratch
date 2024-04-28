@@ -3,7 +3,10 @@
 	url = https://github.com/Guillemsc/GDebugPanelGodot.git
 [submodule "addons/TerraBrush"]
 	path = addons/TerraBrush
-	url = https://github.com/spimort/TerraBrush
+	url = https://github.com/jasonswearingen/TerraBrush
 [submodule "addons/godot_debug_draw_3d"]
 	path = addons/godot_debug_draw_3d
 	url = https://github.com/DmitriySalnikov/godot_debug_draw_3d
+[submodule "addons/GodotEx"]
+	path = addons/GodotEx
+	url = https://github.com/altamkp/GodotEx
