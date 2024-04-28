@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Runtime.CompilerServices;
+using GodotEx.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace test1;
 
@@ -8,9 +10,21 @@ namespace test1;
 public partial class Main : Node3D
 {
    public World World { get; set; }
+   public ApplicationHost AutoloadHost { get; set; }
+
+   
+
    // Called when the node enters the scene tree for the first time.
    public override void _Ready()
    {
+     
+      //make an autoload DI Host
+      //AutoloadHost = new ApplicationHost() { };      
+      ////GetTree().Root.
+      //GetNode("/root").CallDeferred("add_child", AutoloadHost);
+         //AddChild(AutoloadHost);
+
+
       World = new();
       AddChild(World);
       //if (Engine.IsEditorHint())
@@ -25,6 +39,10 @@ public partial class Main : Node3D
 
       var player = new Player();
       AddChild(player);
+
+
+
+
    }
 
    // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,6 +52,24 @@ public partial class Main : Node3D
    }
 }
 
+public partial class ApplicationHost : Host
+{
+   // This line is required due to a Godot bug that doesn't run _EnterTree() in an external library
+   public override void _EnterTree()
+   {
+      var x = 1;
+      x++;
+      GD.Print("ApplicationHost._EnterTree()");
+      base._EnterTree();
+   }
+
+   protected override void ConfigureServices(IServiceCollection services)
+   {
+      base.ConfigureServices(services);
+      // Add your background services here
+   }
+
+}
 
 
 public static class zz_Extensions_CsgBox3D

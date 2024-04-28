@@ -3,10 +3,13 @@ param(
 	[Parameter(Mandatory = $true)]
 	[string]$DestinationProjectName,
 	[string[]]$SourceFolders = @(
-		"GDebugPanelGodot",
-		"TerraBrush\addons\terrabrush",
-		"godot_debug_draw_3d\addons\debug_draw_3d"
-	)
+		"GDebugPanelGodot"
+		, "TerraBrush\addons\terrabrush"
+		, "godot_debug_draw_3d\addons\debug_draw_3d"
+		# ,"godotex\src\GodotEx"
+		# ,".\GodotEx\src\GodotEx.Async"
+		# ,".\GodotEx\src\GodotEx.Hosting"
+	)	
 )
 
 Write-Host "# Resolve the full path of the destination directory"
@@ -24,6 +27,19 @@ $FullDestination = Join-Path -Path (Resolve-Path -Path $Destination) -ChildPath 
 # Safely resolve the destination path and append 'addons' subdirectory
 # $FullDestination = Join-Path -Path (Resolve-Path -Path $Destination -ErrorAction Stop) -ChildPath (".\addons")
 # $FullDestination = $FullDestination + "\addons"
+
+# delete target addons folder before copying new ones over
+if (Test-Path $FullDestination) {
+	# Remove all contents and subdirectories recursively
+	Remove-Item -Path "$FullDestination\*" -Recurse -Force
+
+	# If you also want to delete the root folder itself, uncomment the following line:
+	# Remove-Item -Path $FOLDERNAME -Force
+}
+else {
+	Write-Output "Folder does not exist: $FullDestination"
+}
+
 
 # Ensure the destination directory exists; create it if it does not
 if (-Not (Test-Path -Path $FullDestination)) {
