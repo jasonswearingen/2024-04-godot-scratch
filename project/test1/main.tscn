@@ -4,3 +4,4 @@
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_m7mwn")
+metadata/resolved = true

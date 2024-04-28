@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using test1.src.lib;
 
 
 namespace test1;

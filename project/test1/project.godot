@@ -15,6 +15,10 @@ run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+AutoloadHost="*res://src/lib/AutoloadHost.cs"
+
 [dotnet]
 
 project/assembly_name="test1"
