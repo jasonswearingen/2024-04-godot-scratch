@@ -4,6 +4,8 @@ using System;
 using GodotEx.Hosting;
 using test1.src.lib;
 
+namespace GodotEx.Hosting;
+
 /// <summary>
 /// The Default DI Host for the project.
 /// you should configure this to Automatically load upon application launch via Godot's Autoload feature (see Project Settings).

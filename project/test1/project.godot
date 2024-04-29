@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AutoloadHost="*res://src/lib/AutoloadHost.cs"
+AutoloadHost="res://src/thirdparty/GodotEx.Hosting/src/Core/AutoloadHost.cs"
 
 [dotnet]
 
