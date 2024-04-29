@@ -28,7 +28,7 @@ public abstract partial class Host : Node
    /// </summary>
    public static Host Autoload { get; protected set; }
 
-   private ServiceProvider _serviceProvider;
+   public ServiceProvider serviceProvider;
 
 
    public Host()
@@ -65,7 +65,7 @@ public abstract partial class Host : Node
       IsHostInitialized = true;
       var services = new ServiceCollection();
       ConfigureServices(services);
-      _serviceProvider = services.BuildServiceProvider();
+      serviceProvider = services.BuildServiceProvider();
 
       var eagerTypes = Assembly.GetExecutingAssembly().GetTypes()
           .Concat(Assembly.GetCallingAssembly().GetTypes())
@@ -73,7 +73,7 @@ public abstract partial class Host : Node
 
       foreach (var eagerType in eagerTypes)
       {
-         var eagerService = GetService(eagerType);
+         var eagerService = serviceProvider.GetService(eagerType);
          if (eagerService is null)
          {
             throw new InvalidOperationException($"No service of type {eagerType.Name} found.");
@@ -100,50 +100,6 @@ public abstract partial class Host : Node
 
 
    /// <summary>
-   /// Returns service of <paramref name="type"/>.
-   /// </summary>
-   /// <param name="type">Type to match.</param>
-   /// <returns>Service object of <paramref name="type"/>, null if not found.</returns>
-   public object? GetService(Type type) => _serviceProvider.GetService(type);
-
-   /// <summary>
-   /// Returns service of type <typeparamref name="T"/>.
-   /// </summary>
-   /// <typeparam name="T">Type to match.</typeparam>
-   /// <returns>Service object of type <typeparamref name="T"/>, null if not found.</returns>
-   public object? GetService<T>() => _serviceProvider.GetService<T>();
-
-   /// <summary>
-   /// Returns service of <paramref name="type"/>.
-   /// </summary>
-   /// <param name="type">Type to match.</param>
-   /// <returns>Service object of <paramref name="type"/>.</returns>
-   /// <exception cref="InvalidOperationException">Service of <paramref name="type"/> not found.</exception>
-   public object GetRequiredService(Type type) => _serviceProvider.GetRequiredService(type);
-
-   /// <summary>
-   /// Returns service of type <typeparamref name="T"/>.
-   /// </summary>
-   /// <typeparam name="T">Type to match.</typeparam>
-   /// <returns>Service object of type <typeparamref name="T"/>.</returns>
-   /// <exception cref="InvalidOperationException">Service of type <typeparamref name="T"/> not found.</exception>
-   public T GetRequiredService<T>() where T : notnull => _serviceProvider.GetRequiredService<T>();
-
-   /// <summary>
-   /// Returns all services of <paramref name="type"/>.
-   /// </summary>
-   /// <param name="type">Type to match.</param>
-   /// <returns>All service objects of <paramref name="type"/>.</returns>
-   public IEnumerable<object?> GetServices(Type type) => _serviceProvider.GetServices(type);
-
-   /// <summary>
-   /// Returns all services of type <typeparamref name="T"/>.
-   /// </summary>
-   /// <typeparam name="T">Type to match.</typeparam>
-   /// <returns>All service objects of type <typeparamref name="T"/>.</returns>
-   public IEnumerable<T> GetServices<T>() where T : notnull => _serviceProvider.GetServices<T>();
-
-   /// <summary>
    /// Configures service collection.
    /// </summary>
    /// <param name="services">Service collection to configure.</param>
@@ -163,12 +119,17 @@ public abstract partial class Host : Node
 
       if (disposing)
       {
-         if (_serviceProvider is not null)
+         if (serviceProvider is not null)
          {
             //detach and dispose all configured services
-            var services = _serviceProvider.GetServices<IDisposable>();
+            var services = serviceProvider.GetServices<IDisposable>();
             foreach (var service in services)
             {
+               if(service is Node node)
+               {                  
+                  //node lifecycle is managed by the scene tree they are attached to
+                  continue;
+               }
                try
                {
                   service.Dispose();
@@ -176,9 +137,9 @@ public abstract partial class Host : Node
                   GD.PrintErr($"Error disposing service: {ex.Message}");
                }
             }
-            _serviceProvider.Dispose();
+            serviceProvider.Dispose();
          }
-         _serviceProvider = null;
+         serviceProvider = null;
          IsHostInitialized = false;
       }
 

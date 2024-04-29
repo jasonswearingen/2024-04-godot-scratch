@@ -33,7 +33,7 @@ internal class DependencyInjector : IDisposable {
 
         foreach (var member in members) {
             var memberType = member.GetMemberType();
-            var service = node.GetHost()?.GetService(memberType)
+            var service = node.GetHost()?.serviceProvider.GetService(memberType)
                 ?? throw new InvalidOperationException($"Service of type {memberType} not found.");
             member.SetValue(node, service);
         }
