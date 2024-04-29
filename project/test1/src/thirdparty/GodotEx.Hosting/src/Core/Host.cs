@@ -77,7 +77,7 @@ public abstract partial class Host : Node
    protected virtual void ConfigureServices(IServiceCollection services)
    {
       this._PrintInfo("HOST CONFIGURING SERVICES");
-      services.AddSingleton(GetType(), this);
+      services.AddSingleton(this);
       services.AddSingleton(GetTree());
       services.AddSingleton<DependencyInjector>();
       services.AddSingleton<NodeResolver>();
@@ -91,8 +91,6 @@ public abstract partial class Host : Node
    /// <param name="disposing"></param>
    protected override void Dispose(bool disposing)
    {
-      GD.Print("HOST DISPOSING: " + disposing);
-
       if (disposing)
       {
          if (serviceProvider is not null)
@@ -118,7 +116,6 @@ public abstract partial class Host : Node
             serviceProvider.Dispose();
          }
          serviceProvider = null;
-         _isInitialized = false;
       }
       base.Dispose(disposing);
    }

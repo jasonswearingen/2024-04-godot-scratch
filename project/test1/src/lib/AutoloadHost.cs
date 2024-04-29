@@ -6,7 +6,7 @@ using test1.src.lib;
 
 /// <summary>
 /// The Default DI Host for the project.
-/// Automatically loaded upon application launch via Godot's Autoload feature (see Project Settings).
+/// you should configure this to Automatically load upon application launch via Godot's Autoload feature (see Project Settings).
 /// for docs on DI Host, see: https://altamkp.github.io/GodotEx/docs/GodotEx.Hosting/Hosting.html#setting-up-an-autoload-host
 /// </summary>
 [Tool]
@@ -16,6 +16,8 @@ public partial class AutoloadHost : Host
    /// Autoload host instance configured in Project Settings.
    /// </summary>
    public static AutoloadHost Instance { get; protected set; }
+    
+   
    public AutoloadHost()
    {
       if(Instance is not null)
@@ -24,7 +26,7 @@ public partial class AutoloadHost : Host
       }
       Instance = this;
 
-      _GD.Print("AutoloadHost.ctor()", Colors.Orange);
+      this._Print("AutoloadHost.ctor()", Colors.DarkOrange);
 
       if (Engine.IsEditorHint() && IsInsideTree())
       {
@@ -70,6 +72,13 @@ public partial class AutoloadHost : Host
       //}
    }
 
+   protected override void _DoInit()
+   {
+      base._DoInit();
+
+      Engine.RegisterSingleton(this.Name, this);
+   }
+
    /// <summary>
    /// Called when the node enters the scene tree for the first time.
    /// however in cold-load, this is not called.
@@ -99,7 +108,9 @@ public partial class AutoloadHost : Host
 
    protected override void Dispose(bool disposing)
    {
-      GD.Print("ApplicationHost.Dispose(): " + disposing);
+      this._Print($"AutoloadHost.Dispose({disposing}) ",Colors.DarkOrange);
+      Engine.UnregisterSingleton(this.Name);
       base.Dispose(disposing);
+      Instance = null!;
    }
 }
