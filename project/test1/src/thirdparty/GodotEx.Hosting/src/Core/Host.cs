@@ -2,6 +2,7 @@ using Godot;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using test1.src.lib;
 
 namespace GodotEx.Hosting;
 
@@ -23,19 +24,8 @@ namespace GodotEx.Hosting;
 /// </remarks>
 public abstract partial class Host : Node
 {
-   /// <summary>
-   /// Autoload host instance configured in Project Settings.
-   /// </summary>
-   public static Host Autoload { get; protected set; }
-
    public ServiceProvider serviceProvider;
 
-
-   public Host()
-   {
-      GD.Print($"Host({GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={Host.Autoload?.IsHostInitialized}");
-      GD.Print($"IsInsideTree:{IsInsideTree()}");
-   }
    /// <summary>
    /// Called when the node enters the Godot.SceneTree (e.g. upon instancing, scene
    /// changing, or after calling <see cref="Node.AddChild(Node, bool, InternalMode)"/>
@@ -44,25 +34,17 @@ public abstract partial class Host : Node
    /// </summary>
    public override void _EnterTree()
    {
-      GD.Print("HOST ENTER TREE.");
-      if (GetParent() == GetTree().Root && this != GetTree().CurrentScene)
-      {
-         if (Autoload != null)
-         {
-            throw new InvalidOperationException("Autoload host exists already.");
-         }
-         Autoload = this;
-      }
-      
-
-
-      DoInit();
+      _DoInit();
    }
 
-   private void DoInit()
+   protected virtual void _DoInit()
    {
       GD.Print("HOST.DoInit()");
-      IsHostInitialized = true;
+      if (_isInitialized)
+      {
+         throw new Exception("Host already initialized.");
+      }
+      _isInitialized = true;
       var services = new ServiceCollection();
       ConfigureServices(services);
       serviceProvider = services.BuildServiceProvider();
@@ -85,18 +67,7 @@ public abstract partial class Host : Node
       }
    }
 
-   public bool IsHostInitialized;
-
-   public bool TryInit()
-   {
-      GD.Print($"Host.TryInit()  IsHostInitialized={IsHostInitialized}");
-      if (!IsHostInitialized)
-      {
-         DoInit();
-         return true;
-      }
-      return false;
-   }
+   protected bool _isInitialized;
 
 
    /// <summary>
@@ -105,7 +76,7 @@ public abstract partial class Host : Node
    /// <param name="services">Service collection to configure.</param>
    protected virtual void ConfigureServices(IServiceCollection services)
    {
-      GD.Print("HOST CONFIGURING SERVICES");
+      this._PrintInfo("HOST CONFIGURING SERVICES");
       services.AddSingleton(GetType(), this);
       services.AddSingleton(GetTree());
       services.AddSingleton<DependencyInjector>();
@@ -113,6 +84,11 @@ public abstract partial class Host : Node
       services.AddSingleton<SingleNodeManager>();
    }
 
+   /// <summary>
+   /// need to dispose of the serviceProvider, 
+   /// otherwise Godot fails to unload the assembly on a cold-reload
+   /// </summary>
+   /// <param name="disposing"></param>
    protected override void Dispose(bool disposing)
    {
       GD.Print("HOST DISPOSING: " + disposing);
@@ -125,26 +101,25 @@ public abstract partial class Host : Node
             var services = serviceProvider.GetServices<IDisposable>();
             foreach (var service in services)
             {
-               if(service is Node node)
-               {                  
+               if (service is Node node)
+               {
                   //node lifecycle is managed by the scene tree they are attached to
                   continue;
                }
                try
                {
                   service.Dispose();
-               } catch (Exception ex) {
+               }
+               catch (Exception ex)
+               {
                   GD.PrintErr($"Error disposing service: {ex.Message}");
                }
             }
             serviceProvider.Dispose();
          }
          serviceProvider = null;
-         IsHostInitialized = false;
+         _isInitialized = false;
       }
-
-
       base.Dispose(disposing);
-
    }
 }

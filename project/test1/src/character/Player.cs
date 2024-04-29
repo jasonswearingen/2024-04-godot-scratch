@@ -1,13 +1,16 @@
 using Godot;
+using GodotEx.Hosting;
 using System;
 
 [Tool]
 public partial class Player : CharacterBody3D
 {
-	//public Player()
-	//{
- //  }
+   //public Player()
+   //{
+   //  }
 
+   [Inject]
+   public TestService testService;
    public override void _Ready()
    {
       base._Ready();
@@ -80,6 +83,7 @@ public partial class Player : CharacterBody3D
 		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 		if (direction != Vector3.Zero)
 		{
+			testService.Test();
 			velocity.X = direction.X * Speed;
 			velocity.Z = direction.Z * Speed;
 		}

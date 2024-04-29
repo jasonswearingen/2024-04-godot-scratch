@@ -14,6 +14,7 @@ public class ModuleInitializer
    public static void Initialize()
    {
       // This code runs when the assembly containing this class is loaded      
-      _GD.Print("ModuleInitializer.Initialize(): Assembly loaded..", Colors.Aqua);
+      //_GD.Print("ModuleInitializer.Initialize(): Assembly loaded..", Colors.DarkOrange);
+      _GD.Print("[[[ === COLD RELOAD OF MANAGED PROJECT === ]]]", Colors.DarkOrange);
    }
 }

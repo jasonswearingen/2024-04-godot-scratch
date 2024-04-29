@@ -18,8 +18,8 @@ public partial class Main : Node3D
    public object InitTest = null;
    public Main()
    {
-      //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={Host.Autoload is not null}");
-      this._PrintInfo($".ctor(), IsInsideTree={IsInsideTree()},  AutoLoad={Host.Autoload is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={AutoloadHost.Instance is not null}");
+      this._PrintInfo($".ctor(), IsInsideTree={IsInsideTree()},  AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
 
 
    }
@@ -27,22 +27,22 @@ public partial class Main : Node3D
    protected override void Dispose(bool disposing)
    {
       
-      //GD.PrintRich($"[color=yellow]Main({this.GetInstanceId()}/{this.GetHashCode()}).Dispose({disposing})  AutoLoad={Host.Autoload is not null}");
+      //GD.PrintRich($"[color=yellow]Main({this.GetInstanceId()}/{this.GetHashCode()}).Dispose({disposing})  AutoLoad={AutoloadHost.Instance is not null}");
       //GD.PrintRich("[color=yellow]")
-      this._PrintInfo($".Dispose({disposing})  AutoLoad={Host.Autoload is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($".Dispose({disposing})  AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
       base.Dispose(disposing);
    }
 
    public override void _EnterTree()
    {
       InitTest = new();
-      this._PrintInfo($"._EnterTree() AutoLoad={Host.Autoload is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($"._EnterTree() AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
       if (Engine.IsEditorHint())
       {
          Callable.From(() =>
          {
-            GD.Print($"Main({this.GetInstanceId()}) => Callable.From  AutoLoad={Host.Autoload is not null}");
-            //Host.Autoload.TryInit();
+            GD.Print($"Main({this.GetInstanceId()}) => Callable.From  AutoLoad={AutoloadHost.Instance is not null}");
+            //AutoloadHost.Instance.TryInit();
          });
          //
       }
@@ -69,8 +69,8 @@ public partial class Main : Node3D
    //            return;
    //      }
    //      _lastNotificationWhat = what;
-   //      this._PrintTrace($" ._Notification({(test1.src.lib.GodotNotifications)what}:{what}) @ {DateTime.Now.ToString("O")} AutoLoad={Host.Autoload is not null}");
-   //      //GD.Print($"Main({this.GetInstanceId()})._Notification({(test1.src.lib.GodotNotifications)what}:{what}) @ {DateTime.Now.ToString("O")} AutoLoad={Host.Autoload is not null}");
+   //      this._PrintTrace($" ._Notification({(test1.src.lib.GodotNotifications)what}:{what}) @ {DateTime.Now.ToString("O")} AutoLoad={AutoloadHost.Instance is not null}");
+   //      //GD.Print($"Main({this.GetInstanceId()})._Notification({(test1.src.lib.GodotNotifications)what}:{what}) @ {DateTime.Now.ToString("O")} AutoLoad={AutoloadHost.Instance is not null}");
    //   }
 
    //   base._Notification(what);
@@ -81,7 +81,7 @@ public partial class Main : Node3D
    public override void _Ready()
    {
 
-      this._PrintInfo($"._Ready() AutoLoad={Host.Autoload is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($"._Ready() AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
       //make an autoload DI Host
       //AutoloadHost = new ApplicationHost() { };      
       ////GetTree().Root.
@@ -99,7 +99,7 @@ public partial class Main : Node3D
       //{
       //   GD.Print("Executing in the game");
       //}
-      GD.Print($"Main({this.GetInstanceId()})._Ready() AutoLoad={Host.Autoload is not null}");
+      GD.Print($"Main({this.GetInstanceId()})._Ready() AutoLoad={AutoloadHost.Instance is not null}");
       ///GD.Print($"Engine Singletons = {Engine.GetSingletonList().Join()}");
       var mainLoop = Engine.GetMainLoop();
       //mainLoop.

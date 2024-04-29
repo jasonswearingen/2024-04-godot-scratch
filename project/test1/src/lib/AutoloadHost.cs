@@ -12,15 +12,22 @@ using test1.src.lib;
 [Tool]
 public partial class AutoloadHost : Host
 {
-
+   /// <summary>
+   /// Autoload host instance configured in Project Settings.
+   /// </summary>
+   public static AutoloadHost Instance { get; protected set; }
    public AutoloadHost()
    {
+      if(Instance is not null)
+      {
+         throw new Exception("AutoloadHost.Instance already exists.  this is supposed to be a singleton autoload configured in your Godot Project Settings");
+      }
+      Instance = this;
 
       _GD.Print("AutoloadHost.ctor()", Colors.Orange);
 
       if (Engine.IsEditorHint() && IsInsideTree())
       {
-
          //We are running in the editor, and even though this object was just .CTOR'd,
          //we are already inside the SceneTree.
          //CAUSE: The Godot Editor has Cold-Reloaded the CSharp project,
@@ -52,8 +59,7 @@ public partial class AutoloadHost : Host
 
          //i'm not sure why this can't be inside the "CallDeferred", but it doesn't work there.
          //I think it's because the init has to happen in the same stack call as the .ctor() call.
-         this.TryInit();
-         Autoload = this;
+         this._DoInit();
       }
 
 
@@ -62,7 +68,12 @@ public partial class AutoloadHost : Host
       //   this.TryInit();
       //   Autoload = this;
       //}
-   }// Called when the node enters the scene tree for the first time.
+   }
+
+   /// <summary>
+   /// Called when the node enters the scene tree for the first time.
+   /// however in cold-load, this is not called.
+   /// </summary>
    public override void _Ready()
    {
       GD.Print("AUTOLOAD._Read()11");
