@@ -2,7 +2,9 @@ using Godot;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Configuration;
 using test1.src.lib;
+using Microsoft.Extensions.Hosting;
 
 namespace GodotEx.Hosting;
 
@@ -24,11 +26,13 @@ namespace GodotEx.Hosting;
 /// </remarks>
 public abstract partial class Host : Node
 {
-   public ServiceProvider serviceProvider;
+   public IServiceProvider serviceProvider;
+
+   protected IHost DiHost { get; set; }
 
    /// <summary>
    /// Called when the node enters the Godot.SceneTree (e.g. upon instancing, scene
-   /// changing, or after calling <see cref="Node.AddChild(Node, bool, InternalMode)"/>
+   /// changing, or after calling <see cref="Node.AddChild(Node, bool, Node.InternalMode)"/>
    /// in a script). If the node has children, its Godot.Node._EnterTree callback will
    /// be called first, and then that of the children.
    /// </summary>
@@ -45,9 +49,29 @@ public abstract partial class Host : Node
          throw new Exception("Host already initialized.");
       }
       _isInitialized = true;
-      var services = new ServiceCollection();
-      ConfigureServices(services);
-      serviceProvider = services.BuildServiceProvider();
+
+      var newHostBuilder = true;
+      if (newHostBuilder)
+      {
+         //hostBuilder workflow
+         var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
+         builder.Configuration.AddJsonFile("appsettings.json", optional: false);
+         
+         //configure app specific services firstly
+         ConfigureServices(builder.Services);
+
+         //configure NotNot default services
+         DiHost = builder.Build();
+         serviceProvider = DiHost.Services;
+         
+      }
+      else
+      {
+         //old workflow
+         var services = new ServiceCollection();
+         ConfigureServices(services);
+         serviceProvider = services.BuildServiceProvider();
+      }
 
       var eagerTypes = Assembly.GetExecutingAssembly().GetTypes()
           .Concat(Assembly.GetCallingAssembly().GetTypes())
@@ -113,7 +137,10 @@ public abstract partial class Host : Node
                   GD.PrintErr($"Error disposing service: {ex.Message}");
                }
             }
-            serviceProvider.Dispose();
+            if(serviceProvider is IDisposable disposable)
+            {
+               disposable.Dispose();
+            }
          }
          serviceProvider = null;
       }
