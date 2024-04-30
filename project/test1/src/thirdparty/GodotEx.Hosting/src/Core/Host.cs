@@ -117,32 +117,40 @@ public abstract partial class Host : Node
    {
       if (disposing)
       {
-         if (serviceProvider is not null)
-         {
-            //detach and dispose all configured services
-            var services = serviceProvider.GetServices<IDisposable>();
-            foreach (var service in services)
-            {
-               if (service is Node node)
-               {
-                  //node lifecycle is managed by the scene tree they are attached to
-                  continue;
-               }
-               try
-               {
-                  service.Dispose();
-               }
-               catch (Exception ex)
-               {
-                  GD.PrintErr($"Error disposing service: {ex.Message}");
-               }
-            }
-            if(serviceProvider is IDisposable disposable)
-            {
-               disposable.Dispose();
-            }
-         }
          serviceProvider = null;
+         if(this.DiHost is not null)
+         {
+            DiHost.Dispose();
+         }
+         else
+         {
+            if (serviceProvider is not null)
+            {
+               //detach and dispose all configured services
+               var services = serviceProvider.GetServices<IDisposable>();
+               foreach (var service in services)
+               {
+                  if (service is Node node)
+                  {
+                     //node lifecycle is managed by the scene tree they are attached to
+                     continue;
+                  }
+                  try
+                  {
+                     service.Dispose();
+                  }
+                  catch (Exception ex)
+                  {
+                     GD.PrintErr($"Error disposing service: {ex.Message}");
+                  }
+               }
+               if (serviceProvider is IDisposable disposable)
+               {
+                  disposable.Dispose();
+               }
+            }
+
+         }
       }
       base.Dispose(disposing);
    }

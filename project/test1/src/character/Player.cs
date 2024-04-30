@@ -1,6 +1,7 @@
 using Godot;
 using GodotEx.Hosting;
 using System;
+using NotNot.Dotgo;
 
 [Tool]
 public partial class Player : CharacterBody3D
@@ -14,6 +15,7 @@ public partial class Player : CharacterBody3D
    public override void _Ready()
    {
       base._Ready();
+
 
 		var collisionShape = new CollisionShape3D();
 		var cylinder = new CylinderShape3D();

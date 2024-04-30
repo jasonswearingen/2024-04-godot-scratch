@@ -3,6 +3,7 @@ using System;
 using System.Runtime.CompilerServices;
 using GodotEx.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using NotNot.Dotgo;
 using test1.src.lib;
 
 namespace test1;

@@ -2,6 +2,8 @@ using Godot;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using GodotEx.Hosting;
+using NotNot.Dotgo;
+using test1.lib;
 using test1.src.lib;
 
 namespace GodotEx.Hosting;
@@ -28,7 +30,7 @@ public partial class AutoloadHost : Host
       }
       Instance = this;
 
-      this._Print("AutoloadHost.ctor()", Colors.DarkOrange);
+      this._Log("AutoloadHost.ctor()", Colors.DarkOrange);
 
       if (Engine.IsEditorHint() && IsInsideTree())
       {
@@ -44,16 +46,10 @@ public partial class AutoloadHost : Host
          //this will allow csharp tools to properly initialize,
          //as the native godot objects reinitialize (which drives the managed objects)
 
-         this._PrintWarn("RELOADING SCENE TRIGGER!");
          //need to use a callback because we are currently in a critical path,
          //and attempting to reload the editor will crash if we do it now.
-         Callable.From((AutoloadHost ah) =>
-         {
-            this._PrintWarn("RELOADING SCENE START");
-            var editor = EditorInterface.Singleton;
-            editor.ReloadSceneFromPath(EditorInterface.Singleton.GetEditedSceneRoot().SceneFilePath);
-            this._PrintWarn("RELOADING SCENE DONE");
-         }).CallDeferred(this);
+         var immediateReload = false;
+         _Engine.ReloadScene(immediateReload);
 
          //however this "AutoloadHost" is loaded prior to the scene,
          //so it will not be fixed when the scene reloads.
@@ -63,6 +59,7 @@ public partial class AutoloadHost : Host
 
          //i'm not sure why this can't be inside the "CallDeferred", but it doesn't work there.
          //I think it's because the init has to happen in the same stack call as the .ctor() call.
+
          this._DoInit();
       }
 
@@ -76,6 +73,7 @@ public partial class AutoloadHost : Host
 
    protected override void _DoInit()
    {
+      this._PrintWarn("AutoloadHost._DoInit()");
       base._DoInit();
 
       Engine.RegisterSingleton(this.Name, this);
@@ -110,7 +108,7 @@ public partial class AutoloadHost : Host
 
    protected override void Dispose(bool disposing)
    {
-      this._Print($"AutoloadHost.Dispose({disposing}) ",Colors.DarkOrange);
+      this._Log($"AutoloadHost.Dispose({disposing}) ",Colors.DarkOrange);
       Engine.UnregisterSingleton(this.Name);
       base.Dispose(disposing);
       Instance = null!;

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Godot.NET.Sdk/4.2.2">
+<Project Sdk="Godot.NET.Sdk/4.2.2">
   <PropertyGroup>
 	  <!--standard dotnet stuff-->
 	  <TargetFramework>net8.0</TargetFramework>
@@ -19,5 +19,8 @@
     <PackageReference Include="DotEx" Version="1.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="xunit" Version="2.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\NotNot.Dotgo\NotNot.Dotgo.csproj" />
   </ItemGroup>
 </Project>

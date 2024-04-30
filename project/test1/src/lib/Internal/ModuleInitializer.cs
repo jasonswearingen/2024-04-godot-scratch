@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 using Godot;
 
-namespace test1.src.lib.Internal;
+namespace test1.lib.Internal;
 
 public class ModuleInitializer
 {
@@ -15,6 +10,6 @@ public class ModuleInitializer
    {
       // This code runs when the assembly containing this class is loaded      
       //_GD.Print("ModuleInitializer.Initialize(): Assembly loaded..", Colors.DarkOrange);
-      _GD.Print("[[[ === COLD RELOAD OF MANAGED PROJECT === ]]]", Colors.DarkOrange);
+      _GD.Log("[[[ === COLD RELOAD OF MANAGED PROJECT === ]]]", Colors.DarkOrange);
    }
 }
