@@ -13,10 +13,10 @@ This enables debugging, console logs, and hot-reload.
 6. set the **command line arguments** to simply startup the project in the current directory.  example: `--path . --verbose`
 7. set the **working directory** to the current.  example: `.`
 8. Set **enable native code debugging** if you want to see better errors in the output window.   Leaving this disabled allows hot-reload to work (!!!) but various godot cpp errors won't be shown.
-9. a wonky workaround to no Console output:
+9. a workaround to no Console output:
    - add arguments `>out.log 2>&1` to the Launch Profile,  which will redirect stdout and stderr to file.
    - then open the `out.log` in some tool that can auto-scroll to the last line.   I use the VSCode extension "**Log Viewer**" which works great.
-     - Configure `Log Viewer`: edit your `settings.json` and add a `logViewer.watch` node with a wildcard like `"./**/*.log"`
+     - Configure `Log Viewer`: edit your `settings.json` and add a `logViewer.watch` node with a wildcard like `"./**/*.gdlog"`
  
 TLDR:
 - executable path: `bin\Godot_v4.2.2-stable_mono_win64\Godot_v4.2.2-stable_mono_win64.exe`
@@ -24,7 +24,7 @@ TLDR:
 - working dir: `.`
 - 
 ## Attaching a library project
-1. Add library project as normal library
+1. Add library project to your godot game's `.SLN` as normal library
 2. reference godot assemblies via nuget
 3. for **HotReload** to work, in the project.csproj, add `<Version>0.0.0.0</Version>`.   Do this if you see an error like this:
 	``` error

@@ -1,3 +1,15 @@
+####################################################################################################
+# Script to copy the specified source folders to the destination project's 'addons' directory
+# This script is not elegant, nor general-purpose.  
+# It is just a hack to easily copy interesting addons to godot csharp projects while experimenting in this repo.
+
+# Running this script will overwrite ALL the contents of the destination project's 'addons' directory with the addons described in the $SourceFolders variable.
+
+# Usage: For Win11 based dev.  can run by right-clicking the script and selecting 'Run with PowerShell'
+#        script will prompt for the destination project name.  this should be under the 'project' directory
+
+####################################################################################################
+
 # Define parameters
 param(
 	[Parameter(Mandatory = $true)]

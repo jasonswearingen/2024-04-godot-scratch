@@ -10,7 +10,8 @@ interesting addons:
 - 3rd person controller / camera: https://www.youtube.com/watch?v=EP5AYllgHy8
 - debug draw: https://github.com/DmitriySalnikov/godot_debug_draw_3d
 - input mapping: https://www.youtube.com/watch?v=PGy07Q6vHcU
-- 
+- Tracy 
+- Jolt Physics
 
 kids edu
 - https://edabit.com/challenges
