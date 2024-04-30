@@ -21,6 +21,7 @@
     <PackageReference Include="xunit" Version="2.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\NotNot.Dotgo\NotNot.Dotgo.csproj" />
+    <ProjectReference Include="..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj" />
+    <ProjectReference Include="..\..\lib\NotNot\NotNot.csproj" />
   </ItemGroup>
 </Project>

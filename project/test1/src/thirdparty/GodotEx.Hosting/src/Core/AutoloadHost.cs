@@ -2,7 +2,7 @@ using Godot;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using GodotEx.Hosting;
-using NotNot.Dotgo;
+using NotNot.GodotNet;
 using test1.lib;
 using test1.src.lib;
 
