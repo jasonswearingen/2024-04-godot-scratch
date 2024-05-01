@@ -2,22 +2,17 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
-using System.Xml.Linq;
-using NotNot.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Console;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-using NotNot;
 using NotNot._internal;
+using NotNot._internal.Diagnostics;
 using NotNot._internal.Threading;
 using NotNot.Validation;
 using Xunit;
 
-
-namespace LoLo;
+namespace NotNot;
 
 [DebuggerNonUserCode]
 public partial class LoLoRoot

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using NotNot.Concurrency;
-using Xunit;
 
-namespace LoLo.Concurrency;
+namespace NotNot.Concurrency;
 
 /// <summary>
 /// Allows debouncing an action given a key.  The action will be executed at least once, but not more than once per period specified by MinDelay

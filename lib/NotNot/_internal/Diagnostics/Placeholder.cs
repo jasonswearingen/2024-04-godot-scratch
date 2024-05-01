@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using NotNot;
+
+namespace NotNot._internal.Diagnostics;
 
 /// <summary>
 ///    logic that is run in #DEBUG but throws exceptions when called in #RELEASE

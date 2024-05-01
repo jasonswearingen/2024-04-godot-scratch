@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit.Abstractions;
+﻿using System.Collections.Concurrent;
 using Xunit;
+using Xunit.Abstractions;
 
-namespace LoLo.Concurrency;
+namespace NotNot.Concurrency;
 public partial class Debouncer
 {
 
