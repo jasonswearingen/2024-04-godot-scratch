@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotNot", "..\..\lib\NotNot\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot.GodotNet", "..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj", "{37675BCC-F03C-4F60-B541-257F3BF48281}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoLo", "..\..\lib\LoLo\LoLo.csproj", "{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoLo.Godot", "..\..\lib\LoLo.Godot\LoLo.Godot.csproj", "{69ABF421-E15B-405D-A27C-8D408038530D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot.Utils", "..\..\lib\NotNot.Utils\NotNot.Utils.csproj", "{94FB113B-495C-4295-884D-1EFAC11815A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +47,30 @@ Global
 		{37675BCC-F03C-4F60-B541-257F3BF48281}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 		{37675BCC-F03C-4F60-B541-257F3BF48281}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{37675BCC-F03C-4F60-B541-257F3BF48281}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF8D1C95-D57D-4D0E-A530-1D70121B63A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69ABF421-E15B-405D-A27C-8D408038530D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94FB113B-495C-4295-884D-1EFAC11815A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

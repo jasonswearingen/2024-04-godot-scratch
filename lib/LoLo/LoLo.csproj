@@ -1,13 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-
-	<Import Project="..\..\CommonSettings.targets" />
-	
   <PropertyGroup>
 	  <!--standard dotnet stuff-->
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>annotations</Nullable>
+	  <Nullable>annotations</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	  <LangVersion>preview</LangVersion>
 	  <EnablePreviewFeatures>true</EnablePreviewFeatures>
@@ -88,16 +85,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="src\Messaging\" />
-	  <Folder Include="src\NotNot.Bcl\Collections\_unused\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <EditorConfigFiles Remove=".editorconfig" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="src\" />
 	</ItemGroup>
 	
 </Project>
