@@ -6,6 +6,6 @@ public class TestService
 {
    public void Test()
    {
-      GD.Print("TestService.Test() 11!");
+      GD.Print("TestService.Test()");
    }
 }

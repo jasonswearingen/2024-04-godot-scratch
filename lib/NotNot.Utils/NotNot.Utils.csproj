@@ -16,11 +16,6 @@
 		<!--needed for swagger doc gen-->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
-	
-
-  <ItemGroup>
-    <ProjectReference Include="..\LoLo\LoLo.csproj" />
-  </ItemGroup>
 
 	<ItemGroup>
 		<!--DI and App Host stuff-->
@@ -81,6 +76,9 @@
 	<ItemGroup>
 		<!--Exclude the output of source generators from the compilation-->
 		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\NotNot\NotNot.csproj" />
 	</ItemGroup>
 	
 	

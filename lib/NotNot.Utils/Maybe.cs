@@ -2,7 +2,7 @@
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using LoLo.src.Diagnostics;
+using NotNot.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Metadata;

@@ -134,7 +134,7 @@ public class SwaggerSchemaFilter_ApplyAttributes : ISchemaFilter
             }
             else
             {
-               var jsonSerialized = LoLo.Serialization.SerializationHelper.ToJson(attrib.Value!);
+               var jsonSerialized = NotNot.Serialization.SerializationHelper.ToJson(attrib.Value!);
                schema.Example = Converter.JsonToOpenApiObject(jsonSerialized);
             }
 
