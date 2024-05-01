@@ -22,7 +22,7 @@ public partial class Main : Node3D
       //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={AutoloadHost.Instance is not null}");
       this._PrintInfo($".ctor(), IsInsideTree={IsInsideTree()},  AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
 
-
+       
    }
 
    protected override void Dispose(bool disposing)

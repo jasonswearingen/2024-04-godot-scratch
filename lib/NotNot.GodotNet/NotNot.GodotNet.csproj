@@ -13,6 +13,6 @@
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\lib\NotNot\NotNot.csproj" />
+	  <ProjectReference Include="..\NotNot\NotNot.csproj" />
 	</ItemGroup>
 </Project>
