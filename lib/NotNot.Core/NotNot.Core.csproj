@@ -8,7 +8,7 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<LangVersion>preview</LangVersion>
 		<EnablePreviewFeatures>true</EnablePreviewFeatures>
-		<RootNamespace>$([System.String]::new('$(MSBuildProjectName)').Substring(0, $([System.String]::new('$(MSBuildProjectName)').IndexOf('.'))))</RootNamespace>
+		<RootNamespace></RootNamespace>
 	</PropertyGroup>
 
 
@@ -67,14 +67,6 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>-->
 
-	</ItemGroup>
-
-
-	<ItemGroup>
-		<!--<PackageReference Include="coverlet.collector" Version="6.0.0">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>-->
 	</ItemGroup>
 
 </Project>

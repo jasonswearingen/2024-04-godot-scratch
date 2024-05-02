@@ -5,8 +5,6 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 
 
-// ReSharper disable once CheckNamespace
-namespace NotNot;
 
 /// <summary>
 ///    wrapper over Microsoft.Extensions.Logging.ILogger to include callsite and reduce boilerplate.

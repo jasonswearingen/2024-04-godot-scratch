@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="NotNot\" />
+	  <Folder Include="NotNot\Foo\" />
 	</ItemGroup>
 	
 </Project>

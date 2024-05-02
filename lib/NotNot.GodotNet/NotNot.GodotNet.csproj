@@ -1,18 +1,19 @@
 ﻿<Project Sdk="Godot.NET.Sdk/4.2.2">
 	<PropertyGroup>
-		<!--standard dotnet stuff-->
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>true</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<LangVersion>preview</LangVersion>
-		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+			<!--standard dotnet stuff-->
+			<TargetFramework>net8.0</TargetFramework>
+			<ImplicitUsings>enable</ImplicitUsings>
+			<Nullable>enable</Nullable>
+			<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+			<LangVersion>preview</LangVersion>
+			<EnablePreviewFeatures>true</EnablePreviewFeatures>
+			<RootNamespace></RootNamespace>
 
-		<TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
-		<TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
-		<EnableDynamicLoading>true</EnableDynamicLoading>
-	</PropertyGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\NotNot\NotNot.csproj" />
-	</ItemGroup>
-</Project>
+			<TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
+			<TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
+			<EnableDynamicLoading>true</EnableDynamicLoading>
+		</PropertyGroup>
+		<ItemGroup>
+			<ProjectReference Include="..\NotNot\NotNot.csproj" />
+		</ItemGroup>
+	</Project>
