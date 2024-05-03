@@ -35,7 +35,6 @@ public static class zz_Extensions_HostApplicationBuilder
    /// <returns></returns>
    public static async Task _NotNotEzSetup(this IHostApplicationBuilder builder, CancellationToken ct, IEnumerable<Assembly>? scanAssemblies = null, IEnumerable<string>? scanIgnore = null)
    {
-      NotNot.Secrets.SecretsLoader.LoadSecrets(builder.Configuration);
 
       await _NotNotUtils_ConfigureLogging(builder, ct);
       await _NotNotUtils_ConfigureCache(builder, ct);

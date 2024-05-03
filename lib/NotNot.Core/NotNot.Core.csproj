@@ -1,5 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+	<!--shared common .csproj settings-->
+	<Import Project="..\CommonSettings.targets" />
+	
 	<PropertyGroup>
 		<!--standard dotnet stuff-->
 		<TargetFramework>net8.0</TargetFramework>
@@ -70,24 +73,6 @@
 	</ItemGroup>
 
 
-	<!--optional settings for source generator build output-->
-	<PropertyGroup>
-		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<CompilerGeneratedFilesOutputPath>.Generated</CompilerGeneratedFilesOutputPath>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<NoWarn>1701;1702;1591</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<NoWarn>1701;1702;1591</NoWarn>
-	</PropertyGroup>
-	<ItemGroup>
-		<!--Exclude the output of source generators from the compilation-->
-		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\NotNot\NotNot.csproj" />
-	</ItemGroup>
 	
 
 </Project>

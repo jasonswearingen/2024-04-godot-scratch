@@ -42,7 +42,11 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 
 	</ItemGroup>
-	
+
+	<ItemGroup>
+		<ProjectReference Include="..\NotNot\NotNot.csproj" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<!--needed to ref aspcore types.  see: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/target-aspnetcore?view=aspnetcore-8.0&tabs=visual-studio -->
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -65,7 +69,7 @@
 	<!--optional settings for source generator build output-->
 	<PropertyGroup>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+		<CompilerGeneratedFilesOutputPath>.Generated</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <NoWarn>1701;1702;1591</NoWarn>
@@ -77,9 +81,5 @@
 		<!--Exclude the output of source generators from the compilation-->
 		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
 	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\NotNot\NotNot.csproj" />
-	</ItemGroup>
-	
 	
 </Project>
