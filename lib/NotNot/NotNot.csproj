@@ -40,9 +40,5 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\NotNot.Core\NotNot.Core.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="NotNot\" />
-	</ItemGroup>
 	
 </Project>

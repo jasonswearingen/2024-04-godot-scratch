@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot.Core", "..\..\lib\No
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot.GodotNet", "..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj", "{37675BCC-F03C-4F60-B541-257F3BF48281}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot.Utils", "..\..\lib\NotNot.Utils\NotNot.Utils.csproj", "{94FB113B-495C-4295-884D-1EFAC11815A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot.Utils.ToPort", "..\..\lib\NotNot.Utils\NotNot.Utils.ToPort.csproj", "{94FB113B-495C-4295-884D-1EFAC11815A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotNot", "..\..\lib\NotNot\NotNot.csproj", "{D36DDC06-1F18-47EE-97D6-29FCCF6B627C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot", "..\..\lib\NotNot\NotNot.csproj", "{D36DDC06-1F18-47EE-97D6-29FCCF6B627C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotNot.Server", "..\..\lib\NotNot.Server\NotNot.Server.csproj", "{A19C2334-B2E0-4314-983D-AD379FFD8416}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotNot.Server", "..\..\lib\NotNot.Server\NotNot.Server.csproj", "{A19C2334-B2E0-4314-983D-AD379FFD8416}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
