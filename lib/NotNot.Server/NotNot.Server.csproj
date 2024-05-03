@@ -22,7 +22,7 @@
 
 
 	<ItemGroup>
-		<!--needed to ref aspcore types.  see: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/target-aspnetcore?view=aspnetcore-8.0&tabs=visual-studio -->
+		<!--needed to ref aspcore types like IResult from a library.  see: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/target-aspnetcore?view=aspnetcore-8.0&tabs=visual-studio -->
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
@@ -64,5 +64,9 @@
 	<ItemGroup>
 		<ProjectReference Include="..\NotNot\NotNot.csproj" />
 	</ItemGroup>
-	
+
+	<ItemGroup>
+<!--move back during troubleshoot-->
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
 </Project>

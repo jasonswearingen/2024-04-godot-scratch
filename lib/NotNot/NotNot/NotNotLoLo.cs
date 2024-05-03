@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace NotNot;
@@ -33,6 +33,6 @@ public class NotNotLoLo : LoLoRoot
    }
 
    public OperatorService Operator => Services!.GetRequiredService<OperatorService>();
-   public EzValidator Validator => Services!.GetRequiredService<EzValidator>();
+   //public EzValidator Validator => Services!.GetRequiredService<EzValidator>();
 }
 

@@ -1,23 +1,15 @@
-﻿
-using System.Collections.Concurrent;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using NotNot;
 using NotNot.Collections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Logging.Console;
 using NotNot.DI.Advanced;
-using NotNot.SwaggerGen.Advanced;
 using Scrutor;
 using Serilog;
 using Serilog.Events;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using ZiggyCreatures.Caching.Fusion;
 
 public static class zz_Extensions_HostApplicationBuilder
@@ -75,7 +67,6 @@ public static class zz_Extensions_HostApplicationBuilder
 
       await _DecorateAutoInitializeServices(builder, ct);
 
-      await _NotNotUtils_ConfigureSwaggerGen(builder, ct);
 
 
 
@@ -130,29 +121,6 @@ public static class zz_Extensions_HostApplicationBuilder
 
    }
 
-   /// <summary>
-   /// does general swaggergen configs:  adding xml docs, adding [SwaggerIgnore] or [SwaggerExample] attributes
-   /// </summary>
-   /// <param name="builder"></param>
-   /// <param name="ct"></param>
-   /// <returns></returns>
-   internal static async Task _NotNotUtils_ConfigureSwaggerGen(this IHostApplicationBuilder builder, CancellationToken ct)
-   {
-      builder.Services.ConfigureSwaggerGen((options) =>
-      {
-
-         //use globbing to load xml docs from all assemblies, to be used for swagger request/response examples docgen
-         var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
-         xmlFiles.ForEach(xmlFile => options.IncludeXmlComments(xmlFile));
-
-
-         //Add custom SwaggerGen filters so you can decorate properties with [SwaggerIgnore] or [SwaggerExample] attributes
-         options.SchemaFilter<SwaggerSchemaFilter_ApplyAttributes>();
-         options.OperationFilter<SwaggerOperationFilter_DiscoverUsedSchemas>();
-
-         options.DocumentFilter<SwaggerDocumentFilter_RebuildSchema>();
-      });
-   }
 
    /// <summary>
    /// hooks up all services that implement ISingleton, ITransient, IScoped to be auto-registered

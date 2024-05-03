@@ -4,7 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NotNot.SwaggerGen.Advanced;
 
 
 /// <summary>
@@ -149,7 +151,34 @@ public static class zz_Extensions_HostApplicationBuilder
    {
 
       NotNot.Secrets.SecretsLoader.LoadSecrets(builder.Configuration);
-      builder._NotNotEzSetup(ct, scanAssemblies, scanIgnore);
+      await builder._NotNotEzSetup(ct, scanAssemblies, scanIgnore);
 
+      await _NotNotUtils_ConfigureSwaggerGen(builder, ct);
+
+
+   }
+
+   /// <summary>
+   /// does general swaggergen configs:  adding xml docs, adding [SwaggerIgnore] or [SwaggerExample] attributes
+   /// </summary>
+   /// <param name="builder"></param>
+   /// <param name="ct"></param>
+   /// <returns></returns>
+   internal static async Task _NotNotUtils_ConfigureSwaggerGen(this IHostApplicationBuilder builder, CancellationToken ct)
+   {
+      builder.Services.ConfigureSwaggerGen((options) =>
+      {
+
+         //use globbing to load xml docs from all assemblies, to be used for swagger request/response examples docgen
+         var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
+         xmlFiles.ForEach(xmlFile => options.IncludeXmlComments(xmlFile));
+
+
+         //Add custom SwaggerGen filters so you can decorate properties with [SwaggerIgnore] or [SwaggerExample] attributes
+         options.SchemaFilter<SwaggerSchemaFilter_ApplyAttributes>();
+         options.OperationFilter<SwaggerOperationFilter_DiscoverUsedSchemas>();
+
+         options.DocumentFilter<SwaggerDocumentFilter_RebuildSchema>();
+      });
    }
 }
