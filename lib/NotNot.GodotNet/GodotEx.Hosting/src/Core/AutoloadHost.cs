@@ -2,9 +2,7 @@ using Godot;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using GodotEx.Hosting;
-using NotNot.GodotNet;
-using test1.lib;
-using test1.src.lib;
+using NotNot;
 
 namespace GodotEx.Hosting;
 
@@ -24,13 +22,18 @@ public partial class AutoloadHost : Host
    
    public AutoloadHost()
    {
-      if(Instance is not null)
+      this._PrintInfo($".ctor(), IsInsideTree={IsInsideTree()},  AutoLoad={AutoloadHost.Instance is not null}");
+
+
+      if (Instance is not null)
       {
          throw new Exception("AutoloadHost.Instance already exists.  this is supposed to be a singleton autoload configured in your Godot Project Settings");
       }
       Instance = this;
 
       this._Log("AutoloadHost.ctor()", Colors.DarkOrange);
+
+
 
       if (Engine.IsEditorHint() && IsInsideTree())
       {
@@ -92,9 +95,7 @@ public partial class AutoloadHost : Host
    // This line is required due to a Godot bug that doesn't run _EnterTree() in an external library
    public override void _EnterTree()
    {
-      var x = 1;
-      x++;
-      GD.Print("ApplicationHost._EnterTree()");
+      _GD.Print("ApplicationHost._EnterTree()",Colors.Orchid);
       base._EnterTree();
    }
 

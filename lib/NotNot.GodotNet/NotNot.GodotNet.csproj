@@ -19,6 +19,11 @@
 			<TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
 			<EnableDynamicLoading>true</EnableDynamicLoading>
 		</PropertyGroup>
+
+	
+	<ItemGroup>
+	  <PackageReference Include="DotEx" Version="1.0.3" />
+	</ItemGroup>
 		<ItemGroup>
 			<ProjectReference Include="..\NotNot\NotNot.csproj" />
 		</ItemGroup>

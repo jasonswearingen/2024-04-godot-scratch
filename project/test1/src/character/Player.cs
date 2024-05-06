@@ -1,7 +1,7 @@
 using Godot;
 using GodotEx.Hosting;
 using System;
-using NotNot.GodotNet;
+using NotNot;
 
 [Tool]
 public partial class Player : CharacterBody3D

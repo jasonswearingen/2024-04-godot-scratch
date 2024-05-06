@@ -376,3 +376,4 @@ private/proj/BoETool-PocE2E/wwwroot/lib/
 .SourceGen/
 .ignore/
 project/test1/addons/
+.Generated/

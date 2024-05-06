@@ -3,8 +3,8 @@ using System;
 using System.Runtime.CompilerServices;
 using GodotEx.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using NotNot.GodotNet;
 using test1.src.lib;
+using NotNot;
 
 namespace test1;
 
@@ -20,7 +20,7 @@ public partial class Main : Node3D
    public Main()
    {
       //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={AutoloadHost.Instance is not null}");
-      this._PrintInfo($".ctor(), IsInsideTree={IsInsideTree()},  AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($".ctor() main, IsInsideTree={IsInsideTree()},  AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
 
        
    }
@@ -36,6 +36,8 @@ public partial class Main : Node3D
 
    public override void _EnterTree()
    {
+      AddChild(new EditorHotReloadHelper());
+
       InitTest = new();
       this._PrintInfo($"._EnterTree() AutoLoad={AutoloadHost.Instance is not null} TestService={testService is not null} InitTest={InitTest is not null}");
       if (Engine.IsEditorHint())

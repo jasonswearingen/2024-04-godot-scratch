@@ -16,12 +16,10 @@
     <Content Include="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DotEx" Version="1.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="xunit" Version="2.8.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj" />
     <ProjectReference Include="..\..\lib\NotNot\NotNot.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\lib\" />
   </ItemGroup>
 </Project>

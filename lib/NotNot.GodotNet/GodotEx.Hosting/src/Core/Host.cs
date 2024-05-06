@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using test1.src.lib;
 using Microsoft.Extensions.Hosting;
+using NotNot;
+using test1.lib;
 
 namespace GodotEx.Hosting;
 
@@ -38,6 +40,8 @@ public abstract partial class Host : Node
    /// </summary>
    public override void _EnterTree()
    {
+      //GD.Print("Host._EnterTree()");
+      _GD.Print("Host._EnterTree()", Colors.Pink);
       _DoInit();
    }
 

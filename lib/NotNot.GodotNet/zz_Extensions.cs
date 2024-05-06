@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Godot;
+﻿using Godot;
 
-namespace test1.src.lib;
-public static class zz_Extensions_Node
-{
-
-}
 public static class zz_Extensions_GodotObject
 {
    public static void _Log<T>(this T node, string message, Color? color = null)

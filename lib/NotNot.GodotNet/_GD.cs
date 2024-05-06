@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
 using Godot;
 
-namespace test1.lib;
-
 public static class _GD {
 
    public static void Log(string message, Color? color=null)
