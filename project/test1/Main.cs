@@ -3,9 +3,9 @@ using System;
 using System.Runtime.CompilerServices;
 using GodotEx.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using test1.src.lib;
 using NotNot;
 using System.Diagnostics;
+using test1.src.lib.DI;
 
 namespace test1;
 
@@ -21,7 +21,7 @@ public partial class Main : DotNetScene
    public Main()
    {
       //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={DI.globalHost is not null}");
-      this._PrintInfo($".ctor() main, IsInsideTree={IsInsideTree()},  AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
+      this._PrintInfo($".ctor() main, IsInsideTree={IsInsideTree()},  AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
 
    }
 
@@ -29,7 +29,7 @@ public partial class Main : DotNetScene
    {
       //GD.PrintRich($"[color=yellow]Main({this.GetInstanceId()}/{this.GetHashCode()}).Dispose({disposing})  AutoLoad={DI.globalHost is not null}");
       //GD.PrintRich("[color=yellow]")
-      this._PrintInfo($".Dispose({disposing})  AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
+      this._PrintInfo($".Dispose({disposing})  AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
       //DI.globalHost.Dispose();
       base.Dispose(disposing);
    }
@@ -37,12 +37,12 @@ public partial class Main : DotNetScene
    public override void _EnterTree()
    {
       InitTest = new();
-      this._PrintInfo($"._EnterTree() AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
+      this._PrintInfo($"._EnterTree() AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
       if (Engine.IsEditorHint())
       {
          Callable.From(() =>
          {
-            GD.Print($"! Main({this.GetInstanceId()}) => Callable.From  AutoLoad={DI.globalHost is not null}");
+            GD.Print($"! Main({this.GetInstanceId()}) => Callable.From  AutoLoad={DiStatic.globalHost is not null}");
             //DI.globalHost.TryInit();
          });
          //
@@ -81,7 +81,7 @@ public partial class Main : DotNetScene
    // Called when the node enters the scene tree for the first time.
    public override void _Ready()
    {
-      this._PrintInfo($"._Ready() AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
+      this._PrintInfo($"._Ready() AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
       //make an autoload DI Host
       //AutoloadHost = new ApplicationHost() { };      
       ////GetTree().Root.
@@ -99,7 +99,7 @@ public partial class Main : DotNetScene
       //{
       //   GD.Print("Executing in the game");
       //}
-      GD.Print($"Main({this.GetInstanceId()})._Ready() AutoLoad={DI.globalHost is not null}");
+      GD.Print($"Main({this.GetInstanceId()})._Ready() AutoLoad={DiStatic.globalHost is not null}");
       ///GD.Print($"Engine Singletons = {Engine.GetSingletonList().Join()}");
 
 

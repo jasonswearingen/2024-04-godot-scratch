@@ -1,5 +1,6 @@
 using Godot;
 using test1.src.lib;
+using test1.src.lib.DI;
 
 namespace test1;
 
@@ -121,10 +122,10 @@ public partial class DotNetScene : Node
          return;
       }
       
-      if (node is IEzNode && this.IsAncestorOf(node))
+      if ((node is IEzNode || Engine.IsEditorHint() ) && this.IsAncestorOf(node)) //if running in editor, we will try to inject, just to throw error if not IEzNode
       {
          this._PrintInfo($".DotNetScene_NodeAdded({node.Name}:{node.GetInstanceId()}:{node.GetHashCode()}:{node.GetType().Name})");
-         EzInjectAttribute.DiscoverAndInject(node, DI.globalHost.serviceProvider);
+         EzInjectAttribute.DiscoverAndInject(node, DiStatic.globalHost.serviceProvider);
       }
    }
 
@@ -217,7 +218,7 @@ public partial class DiHostNode : Node
          return;
       }
 
-      EzInjectAttribute.DiscoverAndInject(node, DI.globalHost.serviceProvider);
+      EzInjectAttribute.DiscoverAndInject(node, DiStatic.globalHost.serviceProvider);
 
    }
 

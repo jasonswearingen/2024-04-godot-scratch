@@ -4,6 +4,7 @@ using NotNot;
 using test1.src.lib;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using test1.src.lib.DI;
 
 
 namespace test1;
@@ -155,8 +156,7 @@ public partial class Floor : CsgBox3D, IEzNode
       this._EzSetAlbedoTexture("res://assets/textures/grids/Dark/texture_05.png");
       this.UseCollision = true;
 
-      _GD.Log("Floor._Ready()", Colors.Red);
-      //__.GetLogger()._EzDebug("HELLO, WORLD 1111111111111111@2222222222222");
+      //_GD.Log("Floor._Ready()", Colors.Red);
       try
       {
          //testService = DI.globalHost.serviceProvider.GetService<TestService>();

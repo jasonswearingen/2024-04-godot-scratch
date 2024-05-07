@@ -19,6 +19,9 @@ using System.IO;
 using System.Linq;
 
 
+/// <summary>
+/// godot sink for serilog.  complements of @paulloz: https://gist.github.com/paulloz/a0a01539ed96298682005ce61ba33a90
+/// </summary>
 public class GodotSink : ILogEventSink
 {
    private readonly ITextFormatter formatter;
