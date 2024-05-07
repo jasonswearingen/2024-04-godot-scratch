@@ -21,7 +21,7 @@ public static class AssemblyReflectionHelper
    /// <param name="scanIgnore">assemblies to not scan for DI types.   by default this is 'Microsoft.*' because ASP NetCore IHostedService internal registrations conflict.</param>
    /// <param name="matcher"></param>
    /// <returns></returns>
-   public static List<Assembly> GetAssemblies(IEnumerable<Assembly>? scanAssemblies, IEnumerable<string>? scanIgnore, out Matcher matcher)
+   public static List<Assembly> _FilterAssemblies(IEnumerable<Assembly>? scanAssemblies, IEnumerable<string>? scanIgnore)
    {
       scanAssemblies ??= AppDomain.CurrentDomain.GetAssemblies();
       var targetAssemblies = new List<Assembly>(scanAssemblies);
@@ -35,8 +35,21 @@ public static class AssemblyReflectionHelper
          targetAssemblies.Add(thisAssembly);
       }
       //remove ignored assemblies. 
-      matcher = new();
+      var matcher = new Matcher();
       matcher.AddIncludePatterns(scanIgnore);
+
+      for (var i = targetAssemblies.Count - 1; i >= 0; i--)
+      {
+         var current = targetAssemblies[i];
+         var name = current.FullName;
+         var results = matcher.Match(name);
+         if (results.HasMatches)
+         {
+            targetAssemblies.RemoveAt(i);
+         }
+
+      }
+
       return targetAssemblies;
    }
 }
@@ -58,19 +71,9 @@ public static class zz_Extensions_HostApplicationBuilder
 
       await _NotNotUtils_ConfigureLogging(builder, ct);
 
-      var targetAssemblies = AssemblyReflectionHelper.GetAssemblies(scanAssemblies: scanAssemblies, scanIgnore: scanIgnore, out var matcher);
+      var targetAssemblies = AssemblyReflectionHelper._FilterAssemblies(scanAssemblies: scanAssemblies, scanIgnore: scanIgnore);
 
-      for (var i = targetAssemblies.Count - 1; i >= 0; i--)
-      {
-         var current = targetAssemblies[i];
-         var name = current.FullName;
-         var results = matcher.Match(name);
-         if (results.HasMatches)
-         {
-            targetAssemblies.RemoveAt(i);
-         }
-
-      }
+   
 
 
       //add automapper type mappings found in all assemblies

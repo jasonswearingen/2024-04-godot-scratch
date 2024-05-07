@@ -26,6 +26,12 @@ public class ModuleInitializer
       //      sceneTree.NodeRemoved += SceneTree_NodeRemoved;
       //   }
       //}
+
+      // register cleanup code to prevent unloading issues
+      System.Runtime.Loader.AssemblyLoadContext.GetLoadContext(System.Reflection.Assembly.GetExecutingAssembly()).Unloading += alc =>
+      {
+         //_DoFree();
+      };
    }
 
    private static void SceneTree_NodeRemoved(Node node)
