@@ -107,6 +107,7 @@ public partial class DotNetScene : Node
       {
          return;
       }
+      
       if (node is IEzNode && this.IsAncestorOf(node))
       {
          this._PrintInfo($".DotNetScene_NodeRemoved({node.Name}:{node.GetInstanceId()}:{node.GetHashCode()}:{node.GetType().Name})");

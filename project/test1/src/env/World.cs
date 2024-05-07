@@ -3,6 +3,7 @@ using System;
 using NotNot;
 using test1.src.lib;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 
 namespace test1;
@@ -143,6 +144,9 @@ public partial class Floor : CsgBox3D, IEzNode
 {
    [EzInject] public TestService testService;
 
+   [EzInject]
+   private ILogger<Floor> _logger;
+
    public override void _Ready()
    {
       base._Ready();
@@ -152,9 +156,19 @@ public partial class Floor : CsgBox3D, IEzNode
       this.UseCollision = true;
 
       _GD.Log("Floor._Ready()", Colors.Red);
+      //__.GetLogger()._EzDebug("HELLO, WORLD 1111111111111111@2222222222222");
       try
       {
          //testService = DI.globalHost.serviceProvider.GetService<TestService>();
+         if (_logger is not null)
+         {
+            _logger._EzDebug("Hello, WORLD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            
+         }
+         else
+         {
+            _GD.Log("_logger is null!", Colors.Red);
+         }
          if (testService is not null)
          {
             testService.Test();

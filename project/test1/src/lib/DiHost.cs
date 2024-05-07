@@ -5,10 +5,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Godot;
+using GodotEx.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NotNot;
+using NotNot.Internal;
 
 namespace test1.src.lib;
 
@@ -141,11 +143,18 @@ public class DiWrapper : IDisposable
       //configure app specific services firstly
       ConfigureServices(builder.Services);
 
-      await builder._NotNotEzSetup(ct);
+      await builder._NotNotEzSetup(ct,
+         extraLoggerConfig: (lc) => { lc.WriteTo.Godot(); });
 
+      
 
       //configure NotNot default services
       DiHost = builder.Build();
+
+
+      var __ = NotNotLoLo.__;
+      __.Services = serviceProvider;
+
    }
 
 

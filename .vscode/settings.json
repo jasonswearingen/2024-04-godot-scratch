@@ -8,4 +8,7 @@
 	"logViewer.watch": [
 		"**/*.gdlog" //workaround to see godot console logs.  see devenv/setup.md for more info
 	],
+	"logViewer.options": {
+		
+	}
 }
