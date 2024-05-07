@@ -1,22 +1,25 @@
 ﻿using System.Reflection;
 using Godot;
 
-public static class _GD {
-
-   public static void Log(string message, Color? color=null)
+public static class _GD
+{
+   public static void Log(string message, Color? color = null)
    {
-      if(color is null)
+      if (color is null)
       {
          color = Colors.Gray;
       }
+
       GD.PrintRich($"[color=#{color.Value.ToRgba32():x8}]{message}[/color]");
    }
+
    public static void Print(string message, Color? color = null)
    {
       if (color is null)
       {
          color = Colors.Gray;
       }
+
       GD.PrintRich($"[color=#{color.Value.ToRgba32():x8}]{message}[/color]");
    }
 
@@ -30,9 +33,9 @@ public static class _GD {
       {
          return fieldInfo.GetValue(null) as Dictionary<string, Color>;
       }
+
       return null;
    }
-
 }
 
 public static class _Engine
@@ -41,9 +44,13 @@ public static class _Engine
    {
       void _DoSceneReload()
       {
-         _GD.Log("RELOADING SCENE START",Colors.Yellow);
+         _GD.Log("RELOADING SCENE START", Colors.Yellow);
+
+         
          var editor = EditorInterface.Singleton;
          editor.ReloadSceneFromPath(EditorInterface.Singleton.GetEditedSceneRoot().SceneFilePath);
+
+
          _GD.Log("RELOADING SCENE DONE", Colors.Yellow);
       }
 
@@ -62,5 +69,6 @@ public static class _Engine
          }
       }
    }
-}
 
+   public static SceneTree SceneTree => (Engine.GetMainLoop() as SceneTree)!;
+}

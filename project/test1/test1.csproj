@@ -19,7 +19,4 @@
     <ProjectReference Include="..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj" />
     <ProjectReference Include="..\..\lib\NotNot\NotNot.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\lib\" />
-  </ItemGroup>
 </Project>

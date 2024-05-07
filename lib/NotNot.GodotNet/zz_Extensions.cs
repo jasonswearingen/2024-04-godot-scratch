@@ -13,7 +13,7 @@ public static class zz_Extensions_GodotObject
 
    public static void _PrintTrace<T>(this T node, string message)
       where T:GodotObject
-   {
+   {      
       _PrintNodeHelper(_GetNodeIdDetails(node), message, Colors.DarkSlateGray);
    }
    public static void _PrintWarn<T>(this T node, string message)

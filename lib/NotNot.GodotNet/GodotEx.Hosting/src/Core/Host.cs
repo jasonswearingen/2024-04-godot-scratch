@@ -121,7 +121,6 @@ public abstract partial class Host : Node
    {
       if (disposing)
       {
-         serviceProvider = null;
          if(this.DiHost is not null)
          {
             DiHost.Dispose();
@@ -155,6 +154,7 @@ public abstract partial class Host : Node
             }
 
          }
+         serviceProvider = null;
       }
       base.Dispose(disposing);
    }

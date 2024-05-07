@@ -4,9 +4,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NotNot.SwaggerGen.Advanced;
+using ZiggyCreatures.Caching.Fusion;
 
 
 /// <summary>
@@ -151,10 +153,49 @@ public static class zz_Extensions_HostApplicationBuilder
    {
 
       NotNot.Secrets.SecretsLoader.LoadSecrets(builder.Configuration);
+
+      await _NotNotUtils_ConfigureCache(builder, ct);
+
       await builder._NotNotEzSetup(ct, scanAssemblies, scanIgnore);
+
 
       await _NotNotUtils_ConfigureSwaggerGen(builder, ct);
 
+
+   }
+
+
+   /// <summary>
+   /// nice caching subsystem.  docs for fusionCache here: https://github.com/ZiggyCreatures/FusionCache/tree/main
+   /// </summary>
+   internal static async Task _NotNotUtils_ConfigureCache(this IHostApplicationBuilder builder, CancellationToken ct)
+   {
+
+      //builder.Services.AddMemoryCache();
+      //builder.Services.AddDistributedMemoryCache();
+
+
+      //verify that NotNot.Cache node exists in AppSettings.Json
+      var cacheNode = builder.Configuration.GetSection("NotNot.Cache");
+      if (!cacheNode.Exists())
+      {
+         __.GetLogger()._EzError("NotNot.Cache node not found in AppSettings.json.  FusionCache will use defaults");
+      }
+
+
+      //config cache
+      builder.Services.AddFusionCache()
+         //.WithOptions(opt => { 
+
+         //})
+         .WithDefaultEntryOptions(opt =>
+         {
+            opt.Duration = TimeSpan.FromSeconds(builder.Configuration.GetValue<double?>("NotNot.Cache.DurationDefaultSec") ?? 33);
+            opt.FailSafeMaxDuration = TimeSpan.FromSeconds(builder.Configuration.GetValue<double?>("NotNot.Cache.DurationMaxFailSafeSec") ?? 77);
+            opt.IsFailSafeEnabled = builder.Configuration.GetValue<bool?>("NotNot.Cache.IsFailSafeEnabled") ?? true;
+            //opt.FactorySoftTimeout = TimeSpan.FromMilliseconds(100);
+         })
+         ;
 
    }
 

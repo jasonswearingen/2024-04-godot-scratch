@@ -10,8 +10,36 @@ using NotNot.DI.Advanced;
 using Scrutor;
 using Serilog;
 using Serilog.Events;
-using ZiggyCreatures.Caching.Fusion;
 
+public static class AssemblyReflectionHelper
+{
+
+   /// <summary>
+   /// 
+   /// </summary>
+   /// <param name="scanAssemblies">assemblies you want to scan for automapper and scrutor types.  default is everything: AppDomain.CurrentDomain.GetAssemblies()</param>
+   /// <param name="scanIgnore">assemblies to not scan for DI types.   by default this is 'Microsoft.*' because ASP NetCore IHostedService internal registrations conflict.</param>
+   /// <param name="matcher"></param>
+   /// <returns></returns>
+   public static List<Assembly> GetAssemblies(IEnumerable<Assembly>? scanAssemblies, IEnumerable<string>? scanIgnore, out Matcher matcher)
+   {
+      scanAssemblies ??= AppDomain.CurrentDomain.GetAssemblies();
+      var targetAssemblies = new List<Assembly>(scanAssemblies);
+      scanIgnore ??= new[] { "Microsoft.*" }; // by default microsoft so we don't step on it's internal DI registrations
+
+      //ensure this assembly is included in targetAssemblies
+      //this is so various DI services inside this assembly can be auto-registered
+      var thisAssembly = Assembly.GetExecutingAssembly();
+      if (!targetAssemblies.Contains(thisAssembly))
+      {
+         targetAssemblies.Add(thisAssembly);
+      }
+      //remove ignored assemblies. 
+      matcher = new();
+      matcher.AddIncludePatterns(scanIgnore);
+      return targetAssemblies;
+   }
+}
 public static class zz_Extensions_HostApplicationBuilder
 {
 
@@ -29,22 +57,8 @@ public static class zz_Extensions_HostApplicationBuilder
    {
 
       await _NotNotUtils_ConfigureLogging(builder, ct);
-      await _NotNotUtils_ConfigureCache(builder, ct);
 
-      scanAssemblies ??= AppDomain.CurrentDomain.GetAssemblies();
-      var targetAssemblies = new List<Assembly>(scanAssemblies);
-      scanIgnore ??= new[] { "Microsoft.*" }; // by default microsoft so we don't step on it's internal DI registrations
-
-      //ensure this assembly is included in targetAssemblies
-      //this is so various DI services inside this assembly can be auto-registered
-      var thisAssembly = Assembly.GetExecutingAssembly();
-      if (!targetAssemblies.Contains(thisAssembly))
-      {
-         targetAssemblies.Add(thisAssembly);
-      }
-      //remove ignored assemblies. 
-      Microsoft.Extensions.FileSystemGlobbing.Matcher matcher = new();
-      matcher.AddIncludePatterns(scanIgnore);
+      var targetAssemblies = AssemblyReflectionHelper.GetAssemblies(scanAssemblies: scanAssemblies, scanIgnore: scanIgnore, out var matcher);
 
       for (var i = targetAssemblies.Count - 1; i >= 0; i--)
       {
@@ -73,39 +87,7 @@ public static class zz_Extensions_HostApplicationBuilder
 
    }
 
-   /// <summary>
-   /// nice caching subsystem.  docs for fusionCache here: https://github.com/ZiggyCreatures/FusionCache/tree/main
-   /// </summary>
-   internal static async Task _NotNotUtils_ConfigureCache(this IHostApplicationBuilder builder, CancellationToken ct)
-   {
 
-      //builder.Services.AddMemoryCache();
-      //builder.Services.AddDistributedMemoryCache();
-
-
-      //verify that NotNot.Cache node exists in AppSettings.Json
-      var cacheNode = builder.Configuration.GetSection("NotNot.Cache");
-      if (!cacheNode.Exists())
-      {
-         __.GetLogger()._EzError("NotNot.Cache node not found in AppSettings.json.  FusionCache will use defaults");
-      }
-
-
-      //config cache
-      builder.Services.AddFusionCache()
-         //.WithOptions(opt => { 
-
-         //})
-         .WithDefaultEntryOptions(opt =>
-         {
-            opt.Duration = TimeSpan.FromSeconds(builder.Configuration.GetValue<double?>("NotNot.Cache.DurationDefaultSec") ?? 33);
-            opt.FailSafeMaxDuration = TimeSpan.FromSeconds(builder.Configuration.GetValue<double?>("NotNot.Cache.DurationMaxFailSafeSec") ?? 77);
-            opt.IsFailSafeEnabled = builder.Configuration.GetValue<bool?>("NotNot.Cache.IsFailSafeEnabled") ?? true;
-            //opt.FactorySoftTimeout = TimeSpan.FromMilliseconds(100);
-         })
-         ;
-
-   }
 
    internal static async Task _NotNotUtils_ConfigureLogging(this IHostApplicationBuilder builder, CancellationToken ct)
    {

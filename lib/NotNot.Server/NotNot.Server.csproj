@@ -35,6 +35,7 @@
 		<!--server-app specific libraries-->
 		<PackageReference Include="Google.Cloud.SecretManager.V1" Version="2.1.0" />
 		<PackageReference Include="Stripe.net" Version="43.9.0" />
+		<PackageReference Include="ZiggyCreatures.FusionCache" Version="0.24.0" />
 	</ItemGroup>
 
 
