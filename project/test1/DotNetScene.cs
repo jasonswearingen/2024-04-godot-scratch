@@ -97,6 +97,8 @@ public partial class DotNetScene : Node
 
       this.GetTree().NodeAdded += DotNetScene_NodeAdded;
       this.GetTree().NodeRemoved += DotNetScene_NodeRemoved;
+
+      
    }
 
    private void DotNetScene_NodeRemoved(Node node)
@@ -105,15 +107,9 @@ public partial class DotNetScene : Node
       {
          return;
       }
-      var nodePath = node.GetPath();
-      //if (nodePath.GetNameCount() > 2 && nodePath.GetName(1).StartsWith("@EditorNode"))
-      //{
-      //   //this is an editor node, ignore it.
-      //}
-      //else
-      if (this.IsAncestorOf(node))
+      if (node is IEzNode && this.IsAncestorOf(node))
       {
-         this._PrintInfo($".DotNetScene_NodeRemoved({node.Name}:{node.GetInstanceId}:{node.GetHashCode()})");
+         this._PrintInfo($".DotNetScene_NodeRemoved({node.Name}:{node.GetInstanceId()}:{node.GetHashCode()}:{node.GetType().Name})");
       }
    }
 
@@ -123,16 +119,11 @@ public partial class DotNetScene : Node
       {
          return;
       }
-      var nodePath = node.GetPath();
-
-      //if (nodePath.GetNameCount() > 2 && nodePath.GetName(1).StartsWith("@EditorNode"))
-      //{
-      //   //this is an editor node, ignore it.
-      //}
-      //else
-      if (this.IsAncestorOf(node))
+      
+      if (node is IEzNode && this.IsAncestorOf(node))
       {
-         this._PrintInfo($".DotNetScene_NodeAdded({node.Name}:{node.GetInstanceId}:{node.GetHashCode()})");
+         this._PrintInfo($".DotNetScene_NodeAdded({node.Name}:{node.GetInstanceId()}:{node.GetHashCode()}:{node.GetType().Name})");
+         EzInjectAttribute.DiscoverAndInject(node, DI.globalHost.serviceProvider);
       }
    }
 
@@ -185,5 +176,49 @@ public partial class DotNetScene : Node
       base.Dispose(disposing);
 
    }
+
+}
+
+public partial class DiHostNode : Node
+{
+   ////public required Node Owner { get; init; }
+   //public DiHostNode(Node owner)
+   //{
+   //  // Owner = owner;
+
+   //   this.o
+   //}
+
+
+   //public override void _EnterTree()
+   //{
+   //   base._EnterTree();
+
+   //   diWrapper = new DiWrapper();
+   //   diWrapper.Initialize(CancellationToken.None)._SyncWait();
+
+   //}
+   //protected override void Dispose(bool disposing)
+   //{
+   //   if(disposing)
+   //   {
+   //      diWrapper.Dispose();
+   //      diWrapper = null;
+   //   }
+
+   //   base.Dispose(disposing);
+   //}
+
+   public void TryPopulate(Node node)
+   {
+      if(Owner.IsAncestorOf(node) is false)
+      {
+         return;
+      }
+
+      EzInjectAttribute.DiscoverAndInject(node, DI.globalHost.serviceProvider);
+
+   }
+
 
 }

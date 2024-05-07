@@ -2,6 +2,7 @@ using Godot;
 using System;
 using NotNot;
 using test1.src.lib;
+using System.Diagnostics;
 
 
 namespace test1;
@@ -92,16 +93,19 @@ public partial class Map : Node3D
    //}
 
    public override void _Ready()
-   {  
+   {
       base._Ready();
       GD.Print("Executing !!  Map2");
 
-      var floor = new CsgBox3D();
-      floor.Size = new(1000, 2, 1000);
-      floor.Position = new(0, -1, 0);
-      floor._EzSetAlbedoTexture("res://assets/textures/grids/Dark/texture_05.png");
-      floor.UseCollision = true;
+      var floor = new Floor();
       AddChild(floor);
+
+      //var floor = new CsgBox3D();
+      //floor.Size = new(1000, 2, 1000);
+      //floor.Position = new(0, -1, 0);
+      //floor._EzSetAlbedoTexture("res://assets/textures/grids/Dark/texture_05.png");
+      //floor.UseCollision = true;
+      //AddChild(floor);
 
       {
          var box = new CsgBox3D();
@@ -135,13 +139,34 @@ public partial class Map : Node3D
    }
 }
 
-public partial class Floor : CsgBox3D
+public partial class Floor : CsgBox3D, IEzNode
 {
+   [EzInject] public TestService testService;
+
    public override void _Ready()
    {
       base._Ready();
       Size = new(1000, 2, 1000);
       Position = new(0, -1, 0);
+      this._EzSetAlbedoTexture("res://assets/textures/grids/Dark/texture_05.png");
+      this.UseCollision = true;
 
+      _GD.Log("Floor._Ready()", Colors.Red);
+      try
+      {
+         //testService = DI.globalHost.serviceProvider.GetService<TestService>();
+         if (testService is not null)
+         {
+            testService.Test();
+         }
+         else
+         {
+            _GD.Log("testService is null!", Colors.Red);
+         }
+      }
+      catch (Exception ex)
+      {
+         GD.PrintErr($"Main._Ready() Error!: \n{ex} \n {ex.ToStringDemystified()} \n {ex._ToUserFriendlyString()}");
+      }
    }
 }

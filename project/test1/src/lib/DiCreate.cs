@@ -9,20 +9,7 @@ using Godot;
 using GodotEx.Hosting;
 
 namespace test1.src.lib;
-internal class DiCreate
-{
-   private const BindingFlags BINDING_FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
-
-   private readonly Dictionary<Type, MemberInfo[]> _members = new();
-
-
-
-
-
-
-
-}
 
 public interface IEzNode { }
 
@@ -43,18 +30,19 @@ public class EzInjectAttribute : Attribute
    /// discover and attach all nodes with the EzInjectAttribute
    /// </summary>
    /// <param name="target"></param>
-   public static void DiscoverAndInject(Node target)
+   /// <returns>count of remaining members that have not been filled (no injection found)</returns>
+   public static int DiscoverAndInject(Node target, IServiceProvider serviceProvider)
    {
       if (Engine.IsEditorHint() is false && target is not IEzNode)
       {
-         return;
+         //early exit if not in editor mode and not marked as IEzNode (for perf)
+         return 0;
       }
-      var type = target.GetType();
-
-      var members = _GetMatchingMembers(type, TYPE,BINDING_FLAGS);
+      var targetType = target.GetType();
+      var childMembersToInspect = _GetMatchingMembers(targetType, TYPE,BINDING_FLAGS);
 
       var attachCount = 0;
-      foreach (var childMemberInfo in members)
+      foreach (var childMemberInfo in childMembersToInspect)
       {
 
          //ensure child not already set
@@ -64,98 +52,32 @@ public class EzInjectAttribute : Attribute
             throw new InvalidOperationException("child already set");
          }
 
-
          var injectedChildType = childMemberInfo.GetMemberType();
 
 
-
-         if (injectedChildType._IsAssignableTo<Node>())
+         //find the type in our serviceProvider
+         var service = serviceProvider.GetService(injectedChildType);
+         if (service is not null)
          {
-            //this is a godot node, so find it in the tree
-
-            //find child in scene tree
-            var child = target.GetNodeOrNull(injectedChildType.Name);
-            //target.GetTree().EditedSceneRoot._FindChild()
-         }
-
-
-
-         
-
-
-
-         if ( childNode is not Node cn)
-         {
-            throw new InvalidCastException("child not Node");
-         }
-         var parent = cn.GetParent();
-         if(parent is null)
-         {
-            target.AddChild(cn);
+            //we found a service, so set it
+            childMemberInfo.SetValue(target, service);
             attachCount++;
+            continue;
          }
-         else if(parent.GetInstanceId() != target.GetInstanceId())
-         {
-            throw new InvalidOperationException(" child already has parent");
-         }
-         //if (parent is not null)
-         //{
-         //   throw new InvalidOperationException("child already has parent");
-         //}
+
+
       }
 
       if (attachCount>0 && target is not IEzNode)
       {
          throw new MissingMemberException("You did not mark the node inheriting 'IEzNode' so it won't be attached at runtime");
       }
+
+      return childMembersToInspect.Length - attachCount;
       
    }
 
 
-   public static void DiscoverAndDetatch(Node target)
-   {
-      if (Engine.IsEditorHint() is false && target is not IEzNode)
-      {
-         return;
-      }
-      var type = target.GetType();
-
-      var members = _GetMatchingMembers(type, TYPE, BINDING_FLAGS);
-
-      var detachCount = 0;
-      foreach (var member in members)
-      {
-         var memberType = member.GetMemberType();
-         
-
-         var childNode = member.GetValue(target);
-         if (childNode is null)
-         {
-            //throw new InvalidCastException("child null");
-            continue;
-         }
-         if (childNode is not Node cn)
-         {
-            throw new InvalidCastException("child not Node");
-         }
-         if (cn.GetParent() is null)
-         {
-
-            throw new InvalidOperationException("child already has no parent");
-         }
-         target.RemoveChild(cn);
-
-         member.SetValue(target, null);
-
-         detachCount++;
-      }
-
-      if (detachCount > 0 && target is not IEzNode)
-      {
-         throw new MissingMemberException("You did not mark the node inheriting 'IEzNode' so it won't be attached at runtime");
-      }
-
-   }
 
 
 

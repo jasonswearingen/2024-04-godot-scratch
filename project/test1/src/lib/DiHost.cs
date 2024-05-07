@@ -14,47 +14,42 @@ namespace test1.src.lib;
 
 public static class DI
 {
-   //[ModuleInitializer]
-   //public static void Initialize()
-   //{
-   //   // This code runs when the assembly containing this class is loaded      
-   //   //_GD.Print("ModuleInitializer.Initialize(): Assembly loaded..", Colors.DarkOrange);
-   //   _GD.Log("[[[ === DI_ModuleInitializer COLD RELOAD OF MANAGED PROJECT === ]]]", Colors.DarkOrange);
+   [ModuleInitializer]
+   public static void Initialize()
+   {
+      // This code runs when the assembly containing this class is loaded      
+      //_GD.Print("ModuleInitializer.Initialize(): Assembly loaded..", Colors.DarkOrange);
+      _GD.Log("[[[ === DI_ModuleInitializer COLD RELOAD OF MANAGED PROJECT === ]]]", Colors.DarkOrange);
 
-   //   //_GD.Log($"Singletons: {Engine.GetSingletonList().Join()}");
+      //_GD.Log($"Singletons: {Engine.GetSingletonList().Join()}");
 
 
-   //   _DoInit();
+      _DoInit();
 
-   //   // register cleanup code to prevent unloading issues
-   //   System.Runtime.Loader.AssemblyLoadContext.GetLoadContext(System.Reflection.Assembly.GetExecutingAssembly()).Unloading += alc =>
-   //   {
-   //      _DoFree();
-   //   };
-      
-   //}
+      // register cleanup code to prevent unloading issues
+      System.Runtime.Loader.AssemblyLoadContext.GetLoadContext(System.Reflection.Assembly.GetExecutingAssembly()).Unloading += alc =>
+      {
+         _DoFree();
+      };
+
+   }
 
    private static void _DoFree()
    {
 
       _GD.Print("DI._DoFree()", Colors.Aqua);
 
-
-
-
       globalHost.Dispose();
       globalHost = null;
 
-      var mainLoop = Engine.GetMainLoop();
-      if (mainLoop is SceneTree sceneTree)
-      {
-         //remove first, because if this is running in the editor (tool mode) the editor reloads the CLR
-         //which would cause these events to be double-subscribed.
+      //var mainLoop = Engine.GetMainLoop();
+      //if (mainLoop is SceneTree sceneTree)
+      //{
+      //   //remove first, because if this is running in the editor (tool mode) the editor reloads the CLR
+      //   //which would cause these events to be double-subscribed.
 
-         sceneTree.NodeAdded -= SceneTree_NodeAdded;
-         sceneTree.NodeRemoved -= SceneTree_NodeRemoved;
-         sceneTree.NodeConfigurationWarningChanged -= SceneTree_NodeConfigurationWarningChanged;
-      }
+
+      //}
 
    }
    private static void _DoInit()
@@ -66,9 +61,9 @@ public static class DI
          _GD.Log($"scenetree: , {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}");
 
 
-         sceneTree.NodeAdded += SceneTree_NodeAdded;
-         sceneTree.NodeRemoved += SceneTree_NodeRemoved;
-         sceneTree.NodeConfigurationWarningChanged += SceneTree_NodeConfigurationWarningChanged;         
+         //sceneTree.NodeAdded += SceneTree_NodeAdded;
+         //sceneTree.NodeRemoved += SceneTree_NodeRemoved;
+         //sceneTree.NodeConfigurationWarningChanged += SceneTree_NodeConfigurationWarningChanged;         
       }
 
       globalHost = new();
@@ -76,105 +71,13 @@ public static class DI
    }
 
 
-   private static void SceneTree_NodeConfigurationWarningChanged(Node node)
-   {
-      var sceneTree = _Engine.SceneTree;
-      if (node is Main main)
-      {
-         _GD.Log($"SceneTree_NodeConfigurationWarningChanged, {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}, node={node.Name}:{node.GetInstanceId()} x {node.GetHashCode()}");
-         
-      }
-      //_GD.Log($"SceneTree_NodeConfigurationWarningChanged, {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}, node={node.Name}:{node.GetInstanceId()} x {node.GetHashCode()}");
-   }
-
-   private static void SceneTree_NodeRemoved(Node node)
-   {
-      var sceneTree = Engine.GetMainLoop() as SceneTree;
-
-      //EzAddChildAttribute.DiscoverAndDetatch(node);
-
-      if (node is Main main)
-      {
-         _GD.Log($"SceneTree_NodeRemoved, {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}, node={node.Name}:{node.GetInstanceId()} x {node.GetHashCode()}");
-      }
-      //_GD.Log($"{node.GetParent()},{node.SceneFilePath}, {node.Name}");
-
-      //_GD.Log($"SceneTree_NodeRemoved, {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}, node={node.Name}:{node.GetInstanceId()} x {node.GetHashCode()}");
-   }
-
-
-   private static void SceneTree_NodeAdded(Node node)
-   {
-      var sceneTree = Engine.GetMainLoop() as SceneTree;
-
-      //debug log scene hiearchies
-
-      var scenePath = node.SceneFilePath;
-      if (string.IsNullOrWhiteSpace(scenePath) is false)
-      {
-         var current = node;
-         var path = node.Name;
-         while (current is not null)
-         {
-            scenePath = current.SceneFilePath;
-            //if (scenePath is not null)
-            {
-               path = $"{scenePath} -> {path}";
-            }
-            current = current.GetParent();
-         }
-         _GD.Log(path);
-      }
-      
-
-      //EzAddChildAttribute.DiscoverAndAttach(node);
-
-      if (node is Main main)
-      {
-         _GD.Log($"SceneTree_NodeAdded, {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}, node={node.Name}:{node.GetInstanceId()} x {node.GetHashCode()}");
-      }
-      if(node is Player player)
-      {
-         _GD.Print("PLAYER!", Colors.Beige);
-         var current = node;
-         var path = node.Name;
-         while (current is not null)
-         {
-            scenePath = current.SceneFilePath;
-            //if (scenePath is not null)
-            {
-               path = $"{scenePath} -> {path}";
-            }
-            current = current.GetParent();
-         }
-         _GD.Log(path);
-      }
-
-         //if (node.SceneFilePath is not null)
-         //{
-         //   _GD.Log($"SceneTree_NodeAdded, {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}, node={node.Name}:{node.GetInstanceId()} x {node.GetHashCode()}");
-         //   var path = node.Name;
-         //   var parent = node.GetParent();
-         //   while (parent is not null)
-         //   {
-         //      path = $"{parent.Name}/{path}";
-         //      parent = parent.GetParent();
-         //   }
-
-         //   _GD.Log($"{node.Name}, {node.SceneFilePath}, {node.GetPath()},\n======\n  {path}\n\n");
-
-         //}
-
-         //_GD.Log($"SceneTree_NodeAdded, {sceneTree.GetInstanceId()} x {sceneTree.GetHashCode()}, node={node.Name}:{node.GetInstanceId()} x {node.GetHashCode()}");
-      }
-
-   public static DiHostBase globalHost;
+   public static DiWrapper globalHost;
 
 
 
 }
 
-public class DiHostBase : IDisposable
+public class DiWrapper : IDisposable
 {
    //public static GlobalDiHost Instance { get; protected set; }
 

@@ -14,14 +14,14 @@ public partial class Main : DotNetScene
 {
    public World World { get; set; }
 
-   [Inject] public TestService testService;
+   
 
    public object InitTest = null;
 
    public Main()
    {
       //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={DI.globalHost is not null}");
-      this._PrintInfo($".ctor() main, IsInsideTree={IsInsideTree()},  AutoLoad={DI.globalHost is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($".ctor() main, IsInsideTree={IsInsideTree()},  AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
 
    }
 
@@ -29,7 +29,7 @@ public partial class Main : DotNetScene
    {
       //GD.PrintRich($"[color=yellow]Main({this.GetInstanceId()}/{this.GetHashCode()}).Dispose({disposing})  AutoLoad={DI.globalHost is not null}");
       //GD.PrintRich("[color=yellow]")
-      this._PrintInfo($".Dispose({disposing})  AutoLoad={DI.globalHost is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($".Dispose({disposing})  AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
       //DI.globalHost.Dispose();
       base.Dispose(disposing);
    }
@@ -37,7 +37,7 @@ public partial class Main : DotNetScene
    public override void _EnterTree()
    {
       InitTest = new();
-      this._PrintInfo($"._EnterTree() AutoLoad={DI.globalHost is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($"._EnterTree() AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
       if (Engine.IsEditorHint())
       {
          Callable.From(() =>
@@ -81,7 +81,7 @@ public partial class Main : DotNetScene
    // Called when the node enters the scene tree for the first time.
    public override void _Ready()
    {
-      this._PrintInfo($"._Ready() AutoLoad={DI.globalHost is not null} TestService={testService is not null} InitTest={InitTest is not null}");
+      this._PrintInfo($"._Ready() AutoLoad={DI.globalHost is not null}  InitTest={InitTest is not null}");
       //make an autoload DI Host
       //AutoloadHost = new ApplicationHost() { };      
       ////GetTree().Root.
@@ -106,22 +106,7 @@ public partial class Main : DotNetScene
 
       var player = new Player();
       AddChild(player);
-      try
-      {
-         testService = DI.globalHost.serviceProvider.GetService<TestService>();
-         if (testService is not null)
-         {
-            testService.Test();
-         }
-         else
-         {
-            _GD.Log("testService is null", Colors.Red);
-         }
-      }
-      catch (Exception ex)
-      {
-         GD.PrintErr($"Main._Ready() Error!: \n{ex} \n {ex.ToStringDemystified()} \n {ex._ToUserFriendlyString()}");
-      }
+    
    }
 
    // Called every frame. 'delta' is the elapsed time since the previous frame.
