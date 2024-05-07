@@ -1,5 +1,37 @@
 ﻿using Godot;
 
+public static class zz_Extensions_Node
+{
+   // Extension method to find a child node of a specific type
+   public static T _FindChild<T>(this Node node, bool recursive = false) where T : Node
+   {
+
+      // Check each child of the current node
+      foreach (Node child in node.GetChildren())
+      {
+         if (child is T tChild)
+         {
+            return tChild;
+         }
+
+         // If recursive is true, look further down the tree
+         if (recursive)
+         {
+            T recursiveChild = child._FindChild<T>(true);
+            if (recursiveChild != null)
+            {
+               return recursiveChild;
+            }
+         }
+      }
+
+      return null; // Return null if no matching child is found
+   }
+   public static void Test(this Node node)
+   {
+      
+   }
+}
 public static class zz_Extensions_GodotObject
 {
    public static void _Log<T>(this T node, string message, Color? color = null)

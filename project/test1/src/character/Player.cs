@@ -2,6 +2,7 @@ using Godot;
 using GodotEx.Hosting;
 using System;
 using NotNot;
+using test1;
 
 [Tool]
 public partial class Player : CharacterBody3D
@@ -41,6 +42,8 @@ public partial class Player : CharacterBody3D
       camera.Position = new Vector3(0.75f, 0.25f, 1.75f);
 		//camera.RotateY(Mathf.DegToRad(180));
 		cameraMount.AddChild(camera);
+
+
 		
    }
    Camera3D camera;

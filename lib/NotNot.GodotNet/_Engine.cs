@@ -4,12 +4,15 @@ public static class _Engine
 {
    public static void ReloadScene(bool isExecutedImmediately = false)
    {
+
+
       void _DoSceneReload()
       {
          _GD.Log("RELOADING SCENE START", Colors.Yellow);
 
          
          var editor = EditorInterface.Singleton;
+         //editor.RestartEditor(false);
          editor.ReloadSceneFromPath(EditorInterface.Singleton.GetEditedSceneRoot().SceneFilePath);
 
 

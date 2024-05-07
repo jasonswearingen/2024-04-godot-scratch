@@ -2,10 +2,10 @@
 
 namespace NotNot;
 
-public class TestService
+public class TestService : ISingletonService
 {
     public void Test()
     {
-        _GD.Print("TestService.Test() 22 whut", Colors.White);
+        _GD.Print("TestService.Test() 21 nice?", Colors.White);
     }
 }

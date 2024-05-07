@@ -7,10 +7,11 @@ using test1.src.lib;
 namespace test1;
 
 [Tool]
-public partial class World : Node3D
+public partial class World : Node3D, IEzNode
 {
 
-   public Map Map { get; private set; }
+   //[EzAddChild]
+   public Map Map;//=new Map();// { get; private set; }
 
    // Called when the node enters the scene tree for the first time.
    public override void _Ready()
@@ -49,7 +50,32 @@ public partial class World : Node3D
       //   GD.Print("Executing !!  World process");
 
    }
+   GodotNotifications _lastNotification;
+   public override void _Notification(int what)
+   {
+      base._Notification(what);
 
+      var currentWhat = (GodotNotifications)what;
+
+      if (currentWhat != _lastNotification)
+      {
+         switch (currentWhat)
+         {
+            case GodotNotifications.Node_WMMouseEnter:
+            case GodotNotifications.Node_WMMouseExit:
+            case GodotNotifications.Node_ApplicationFocusIn:
+            case GodotNotifications.Node_ApplicationFocusOut:
+            case GodotNotifications.Node_WMWindowFocusIn:
+            case GodotNotifications.Node_WMWindowFocusOut:
+               return;
+         }
+         _lastNotification = currentWhat;
+         this._PrintTrace($"._Notification({currentWhat}:{what}) @ {DateTime.UtcNow.ToLocalTime().ToString("HH:mm:ss.fff")}");
+      }
+
+
+
+   }
 
 }
 
