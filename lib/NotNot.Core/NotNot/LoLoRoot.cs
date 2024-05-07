@@ -96,6 +96,7 @@ public partial class LoLoRoot
       {
          var finalMessage = message._FormatAppendArgs(conditionName, argName0: "condition")._FormatAppendArgs(objToLog0,objToLog1,objToLog2,objToLog0Name,objToLog1Name,objToLog2Name)._FormatAppendArgs(memberName, sourceFilePath, sourceLineNumber);
          Debug.Assert(false, finalMessage);
+         Debugger.Break();
          if (__.Test.IsTestingActive)
          {
             Xunit.Assert.Fail(finalMessage);
@@ -124,6 +125,7 @@ public partial class LoLoRoot
    {
       var finalMessage = ex.Message._FormatAppendArgs(memberName, sourceFilePath, sourceLineNumber);
       Debug.Assert(false,finalMessage , ex._ToUserFriendlyString());
+      Debugger.Break();
       if (__.Test.IsTestingActive)
       {
          Xunit.Assert.Fail(finalMessage);
