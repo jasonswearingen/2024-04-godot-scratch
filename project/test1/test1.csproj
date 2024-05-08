@@ -21,6 +21,9 @@
     <Content Include="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Righthand.GodotSourceGenerator" Version="1.0.0-beta.1" />
+  </ItemGroup>
+  <ItemGroup>
 	  <ProjectReference Include="..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj">
 	  </ProjectReference>
     <ProjectReference Include="..\..\lib\NotNot\NotNot.csproj">
@@ -33,4 +36,9 @@
 	  </PackageReference>-->
 	  <!--<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />-->
   </ItemGroup>
+	
+	<ItemGroup>
+		<!--need to include for sourcegenerator actions-->
+		<AdditionalFiles Include="project.godot" />
+	</ItemGroup>
 </Project>

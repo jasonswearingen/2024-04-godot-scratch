@@ -10,9 +10,8 @@ public partial class Player : CharacterBody3D
    //public Player()
    //{
    //  }
+   Node3D modelInstance;
 
-   [Inject]
-   public TestService testService;
    public override void _Ready()
    {
       base._Ready();
@@ -27,8 +26,9 @@ public partial class Player : CharacterBody3D
 
 		var visuals = new Node3D();
 		var charModelScene = ResourceLoader.Load<PackedScene>("res://assets/models/mixamo_base.glb");
-		var modelInstance = charModelScene.Instantiate<Node3D>();
-		//godot "forward" is +Z, so rotate the model to face -Z
+		
+      modelInstance = charModelScene.Instantiate<Node3D>();
+      //godot "forward" is +Z, so rotate the model to face -Z
 		modelInstance.RotateY(Mathf.DegToRad(180));
 		AddChild(modelInstance);
 
@@ -37,7 +37,12 @@ public partial class Player : CharacterBody3D
 		cameraMount.Position = new Vector3(0, 1.4f, 0);
 		AddChild(cameraMount);
 
-		
+		var animationPlayer = modelInstance._FindChild<AnimationPlayer>();
+
+		//"@CharacterBody3D@10/mixamo_base/AnimationPlayer";
+
+
+
       camera = new Camera3D();
       camera.Position = new Vector3(0.75f, 0.25f, 1.75f);
 		//camera.RotateY(Mathf.DegToRad(180));
@@ -57,14 +62,13 @@ public partial class Player : CharacterBody3D
    }
 
 
-	public Vector2 _mouseSensitivity = new(0.5f, 0.5f);
    public override void _Input(InputEvent @event)
    {
       base._Input(@event);
 		if(@event is InputEventMouseMotion mouseMotion)
 		{
-			RotateY(Mathf.DegToRad(-mouseMotion.Relative.X * _mouseSensitivity.X));
-         cameraMount.RotateX(Mathf.DegToRad(-mouseMotion.Relative.Y * _mouseSensitivity.Y));
+			RotateY(Mathf.DegToRad(-mouseMotion.Relative.X * GameSettings.player_rotate_mouse_sensitivity.X));
+         cameraMount.RotateX(Mathf.DegToRad(-mouseMotion.Relative.Y * GameSettings.player_rotate_mouse_sensitivity.Y));
       }
    }
 
@@ -107,7 +111,7 @@ public partial class Player : CharacterBody3D
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		Vector2 inputDir = Input.GetVector(Imb.P1StrafeLeft,Imb.P1StrafeRight,Imb.P1Forward,Imb.P1Backward);
 		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 		if (direction != Vector3.Zero)
 		{
@@ -123,9 +127,21 @@ public partial class Player : CharacterBody3D
 
 		Velocity = velocity;
 		MoveAndSlide();
-		
 	}
 }
 
 [InputMap]
 public static partial class Imb { }
+
+public static class GameSettings
+{
+	public static class Keys
+   {
+      public static readonly StringName player_rotate_mouse_sensitivity_x = "player/rotate_mouse_sensitivity_x";
+      public static readonly StringName player_rotate_mouse_sensitivity_y = "player/rotate_mouse_sensitivity_y";
+   }
+
+   public static float player_rotate_mouse_sensitivity_x { get;  } = ProjectSettings.GetSetting(Keys.player_rotate_mouse_sensitivity_x).AsSingle();
+   public static float player_rotate_mouse_sensitivity_y { get;  } = ProjectSettings.GetSetting(Keys.player_rotate_mouse_sensitivity_y).AsSingle();
+	public static Vector2 player_rotate_mouse_sensitivity { get;  } = new(GameSettings.player_rotate_mouse_sensitivity_x, GameSettings.player_rotate_mouse_sensitivity_y);
+}

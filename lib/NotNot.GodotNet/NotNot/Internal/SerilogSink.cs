@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace NotNot.Internal;
 using Godot;
 using Serilog;
 using Serilog.Configuration;
@@ -18,6 +16,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
+
+namespace NotNot.Internal;
 
 /// <summary>
 /// godot sink for serilog.  complements of @paulloz: https://gist.github.com/paulloz/a0a01539ed96298682005ce61ba33a90
