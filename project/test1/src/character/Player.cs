@@ -32,7 +32,7 @@ public partial class Player : CharacterBody3D
 		modelInstance.RotateY(Mathf.DegToRad(180));
 		AddChild(modelInstance);
 
-		var cameraMount = new Node3D();
+      cameraMount = new Node3D();
 		cameraMount.Name = "CameraMount";
 		cameraMount.Position = new Vector3(0, 1.4f, 0);
 		AddChild(cameraMount);
@@ -44,8 +44,31 @@ public partial class Player : CharacterBody3D
 		cameraMount.AddChild(camera);
 
 
+		//handle mouse
+		if (Engine.IsEditorHint() is false)
+		{
+			Input.MouseMode = Input.MouseModeEnum.Captured;
+		}
+		else
+		{
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+		}
 		
    }
+
+
+	public Vector2 _mouseSensitivity = new(0.5f, 0.5f);
+   public override void _Input(InputEvent @event)
+   {
+      base._Input(@event);
+		if(@event is InputEventMouseMotion mouseMotion)
+		{
+			RotateY(Mathf.DegToRad(-mouseMotion.Relative.X * _mouseSensitivity.X));
+         cameraMount.RotateX(Mathf.DegToRad(-mouseMotion.Relative.Y * _mouseSensitivity.Y));
+      }
+   }
+
+	Node3D cameraMount;
    Camera3D camera;
 
    public override void _Process(double delta)
@@ -102,3 +125,6 @@ public partial class Player : CharacterBody3D
 		MoveAndSlide();
 	}
 }
+
+[InputMap]
+public static partial class InputMappings { }

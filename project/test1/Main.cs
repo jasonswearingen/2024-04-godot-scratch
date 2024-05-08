@@ -7,6 +7,7 @@ using NotNot;
 using System.Diagnostics;
 using test1.src.lib.DI;
 
+
 namespace test1;
 
 [Tool]
@@ -22,7 +23,7 @@ public partial class Main : DotNetScene
    {
       //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={DI.globalHost is not null}");
       this._PrintInfo($".ctor() main, IsInsideTree={IsInsideTree()},  AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
-
+      
    }
 
    protected override void Dispose(bool disposing)
@@ -101,7 +102,6 @@ public partial class Main : DotNetScene
       //}
       GD.Print($"Main({this.GetInstanceId()})._Ready() AutoLoad={DiStatic.globalHost is not null}");
       ///GD.Print($"Engine Singletons = {Engine.GetSingletonList().Join()}");
-
 
 
       var player = new Player();

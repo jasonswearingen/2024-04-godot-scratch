@@ -80,7 +80,7 @@ foreach ($Folder in $SourceFolders) {
 
 	# Copy the current source directory to the specified destination
 	try {
-		Copy-Item -Path $SourceDir -Destination $FullDestination -Recurse -Force
+		Copy-Item -Path $SourceDir -Destination $FullDestination -Recurse -Force -ErrorAction SilentlyContinue
 		Write-Host "Successfully copied '$SourceDir' to '$FullDestination'"
 	}
  catch {

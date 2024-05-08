@@ -1,4 +1,9 @@
-<Project Sdk="Godot.NET.Sdk/4.2.2">
+﻿<Project Sdk="Godot.NET.Sdk/4.2.2">
+
+
+	<!--shared common .csproj settings-->
+	<Import Project="..\..\lib\CommonSettings.targets" />
+	
   <PropertyGroup>
 	  <!--standard dotnet stuff-->
 	  <TargetFramework>net8.0</TargetFramework>
@@ -16,7 +21,16 @@
     <Content Include="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj" />
-    <ProjectReference Include="..\..\lib\NotNot\NotNot.csproj" />
+	  <ProjectReference Include="..\..\lib\NotNot.GodotNet\NotNot.GodotNet.csproj">
+	  </ProjectReference>
+    <ProjectReference Include="..\..\lib\NotNot\NotNot.csproj">
+	 </ProjectReference>
+	  <!--below is trying to get "InputMapGenerator.cs" working.   failed.  going to use GodotSharp.SourceGenerators under NotNot.GodotNet instead-->
+	  <!--<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+		  <PrivateAssets>all</PrivateAssets>
+		  --><!--required so that the .props file is included in the target project build--><!--
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>-->
+	  <!--<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />-->
   </ItemGroup>
 </Project>
