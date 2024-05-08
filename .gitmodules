@@ -10,3 +10,6 @@
 [submodule "addons/GodotEx"]
 	path = addons/GodotEx
 	url = https://github.com/altamkp/GodotEx
+[submodule "addons/godot_input_helper"]
+	path = addons/godot_input_helper
+	url = https://github.com/nathanhoad/godot_input_helper

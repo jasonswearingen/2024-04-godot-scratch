@@ -18,6 +18,7 @@ param(
 		"GDebugPanelGodot"
 		, "TerraBrush\addons\terrabrush"
 		, "godot_debug_draw_3d\addons\debug_draw_3d"
+		, "godot_input_helper\addons\input_helper"
 		# ,"godotex\src\GodotEx"
 		# ,".\GodotEx\src\GodotEx.Async"
 		# ,".\GodotEx\src\GodotEx.Hosting"
