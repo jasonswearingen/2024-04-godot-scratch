@@ -4,7 +4,7 @@ using System;
 using NotNot;
 using test1;
 
-//[SceneTree]
+[SceneTree]
 [Tool]
 public partial class Player : CharacterBody3D
 {

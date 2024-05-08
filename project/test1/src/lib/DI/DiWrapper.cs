@@ -74,6 +74,8 @@ public class DiWrapper : IDisposable
         ConfigureServices(builder.Services);
 
         await builder._NotNotEzSetup(ct,
+           //need to ignore these to avoid throws
+           scanIgnore: new[] { "GodotSharp*", "Microsoft.*", "netstandard*", "Serilog*", "System*" },
            extraLoggerConfig: (lc) => { lc.WriteTo.Godot(); });
 
 

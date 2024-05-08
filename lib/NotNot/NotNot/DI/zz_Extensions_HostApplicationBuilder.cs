@@ -37,11 +37,17 @@ public static class zz_Extensions_HostApplicationBuilder
 
 
 
+      try
+      {
+         //add automapper type mappings found in all assemblies
+         builder.Services.AddAutoMapper(targetAssemblies);
 
-      //add automapper type mappings found in all assemblies
-      builder.Services.AddAutoMapper(targetAssemblies);
+         await _ScrutorRegisterServiceInterfaces(builder, ct, targetAssemblies);
 
-      await _ScrutorRegisterServiceInterfaces(builder, ct, targetAssemblies);
+      }catch(Exception ex)
+      {
+         throw new Exception("If this is an assembly load exception, try adding it's referencing assembly to 'scanIgnore'", ex);
+      }
 
 
       await _DecorateAutoInitializeServices(builder, ct);
