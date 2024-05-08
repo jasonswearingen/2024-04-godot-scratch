@@ -4,13 +4,15 @@ using System;
 using NotNot;
 using test1;
 
+//[SceneTree]
 [Tool]
 public partial class Player : CharacterBody3D
 {
    //public Player()
    //{
    //  }
-   Node3D modelInstance;
+   
+	Node3D modelInstance;
 
    public override void _Ready()
    {
@@ -24,20 +26,20 @@ public partial class Player : CharacterBody3D
       collisionShape.Position = new Vector3(0, 1, 0);		
       AddChild(collisionShape);
 
-		var visuals = new Node3D();
-		var charModelScene = ResourceLoader.Load<PackedScene>("res://assets/models/mixamo_base.glb");
-		
-      modelInstance = charModelScene.Instantiate<Node3D>();
+		//var charModelScene = ResourceLoader.Load<PackedScene>("res://assets/models/mixamo_base.glb");
+		//modelInstance = charModelScene.Instantiate<Node3D>();
+		modelInstance = this.FindChild("mixamo_base") as Node3D;
+
       //godot "forward" is +Z, so rotate the model to face -Z
-		modelInstance.RotateY(Mathf.DegToRad(180));
-		AddChild(modelInstance);
+	//	modelInstance.RotateY(Mathf.DegToRad(180));
+		//AddChild(modelInstance);
 
       cameraMount = new Node3D();
 		cameraMount.Name = "CameraMount";
 		cameraMount.Position = new Vector3(0, 1.4f, 0);
 		AddChild(cameraMount);
 
-		var animationPlayer = modelInstance._FindChild<AnimationPlayer>();
+		//var animationPlayer = modelInstance._FindChild<AnimationPlayer>();
 
 		//"@CharacterBody3D@10/mixamo_base/AnimationPlayer";
 
@@ -60,6 +62,8 @@ public partial class Player : CharacterBody3D
 		}
 		
    }
+
+	
 
 
    public override void _Input(InputEvent @event)

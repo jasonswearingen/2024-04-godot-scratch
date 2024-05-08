@@ -103,8 +103,10 @@ public partial class Main : DotNetScene
       GD.Print($"Main({this.GetInstanceId()})._Ready() AutoLoad={DiStatic.globalHost is not null}");
       ///GD.Print($"Engine Singletons = {Engine.GetSingletonList().Join()}");
 
-
-      var player = new Player();
+      
+      var playerScene = ResourceLoader.Load<PackedScene>("src/character/Player.tscn");
+      var player = playerScene.Instantiate<Player>();
+      //var player = new Player();
       AddChild(player);
     
    }

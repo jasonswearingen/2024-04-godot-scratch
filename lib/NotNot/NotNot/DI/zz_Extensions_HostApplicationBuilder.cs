@@ -29,7 +29,11 @@ public static class zz_Extensions_HostApplicationBuilder
 
       await _NotNotUtils_ConfigureLogging(builder, ct, extraLoggerConfig);
 
-      var targetAssemblies = AssemblyReflectionHelper._FilterAssemblies(scanAssemblies: scanAssemblies, scanIgnore: scanIgnore);
+      var targetAssemblies = AssemblyReflectionHelper._FilterAssemblies(
+         scanAssemblies: scanAssemblies
+         , scanIgnore: scanIgnore
+         //, keepRegardless:new[] { "Microsoft.CodeAnalysis" }
+         );
 
 
 

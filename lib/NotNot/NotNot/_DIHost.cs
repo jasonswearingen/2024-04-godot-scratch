@@ -13,11 +13,11 @@ public static class AssemblyReflectionHelper
    /// <param name="scanIgnore">assemblies to not scan for DI types.   by default this is 'Microsoft.*' because ASP NetCore IHostedService internal registrations conflict.</param>
    /// <param name="matcher"></param>
    /// <returns></returns>
-   public static List<Assembly> _FilterAssemblies(IEnumerable<Assembly>? scanAssemblies, IEnumerable<string>? scanIgnore)
+   public static List<Assembly> _FilterAssemblies(IEnumerable<Assembly>? scanAssemblies, IEnumerable<string>? scanIgnore=null, IEnumerable<string>? keepRegardless=null)
    {
       scanAssemblies ??= AppDomain.CurrentDomain.GetAssemblies();
       var targetAssemblies = new List<Assembly>(scanAssemblies);
-      scanIgnore ??= new[] { "Microsoft.*" }; // by default microsoft so we don't step on it's internal DI registrations
+      scanIgnore ??= new[] { "Microsoft.*" };//, "System.*", "netstandard", "AutoMapper.*", "Serilog.*" }; // by default microsoft so we don't step on it's internal DI registrations
 
       //ensure this assembly is included in targetAssemblies
       //this is so various DI services inside this assembly can be auto-registered
@@ -27,17 +27,27 @@ public static class AssemblyReflectionHelper
          targetAssemblies.Add(thisAssembly);
       }
       //remove ignored assemblies. 
-      var matcher = new Matcher();
-      matcher.AddIncludePatterns(scanIgnore);
+      var removeMatcher = new Matcher();
+      removeMatcher.AddIncludePatterns(scanIgnore);
+
+      var keepMatcher = new Matcher();
+      if(keepRegardless is not null)
+      {
+         keepMatcher.AddIncludePatterns(keepRegardless);
+      }
 
       for (var i = targetAssemblies.Count - 1; i >= 0; i--)
       {
          var current = targetAssemblies[i];
          var name = current.FullName;
-         var results = matcher.Match(name);
-         if (results.HasMatches)
+         var removeResults = removeMatcher.Match(name);         
+         if (removeResults.HasMatches)
          {
-            targetAssemblies.RemoveAt(i);
+            var keepResults = keepMatcher.Match(name);
+            if (keepResults.HasMatches is false)
+            {
+               targetAssemblies.RemoveAt(i);
+            }
          }
 
       }
