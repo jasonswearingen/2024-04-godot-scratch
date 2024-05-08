@@ -123,8 +123,9 @@ public partial class Player : CharacterBody3D
 
 		Velocity = velocity;
 		MoveAndSlide();
+		
 	}
 }
 
 [InputMap]
-public static partial class InputMappings { }
+public static partial class Imb { }
