@@ -19,6 +19,7 @@ param(
 		, "TerraBrush\addons\terrabrush"
 		, "godot_debug_draw_3d\addons\debug_draw_3d"
 		, "godot_input_helper\addons\input_helper"
+		, "phantom-camera\addons\phantom_camera"
 		# ,"godotex\src\GodotEx"
 		# ,".\GodotEx\src\GodotEx.Async"
 		# ,".\GodotEx\src\GodotEx.Hosting"
@@ -41,17 +42,37 @@ $FullDestination = Join-Path -Path (Resolve-Path -Path $Destination) -ChildPath 
 # $FullDestination = Join-Path -Path (Resolve-Path -Path $Destination -ErrorAction Stop) -ChildPath (".\addons")
 # $FullDestination = $FullDestination + "\addons"
 
-# delete target addons folder before copying new ones over
-if (Test-Path $FullDestination) {
-	# Remove all contents and subdirectories recursively
-	Remove-Item -Path "$FullDestination\*" -Recurse -Force
 
-	# If you also want to delete the root folder itself, uncomment the following line:
-	# Remove-Item -Path $FOLDERNAME -Force
+# delete target addons folder before copying new ones over
+
+if (Test-Path $FullDestination) {
+
+	# Prompt user for input
+	$userInput = Read-Host "Type 'delete' to confirm deletion of old addons folders  (anything else to leave in-place but still copy):"
+
+	# Check if user input matches "delete"
+	if ($userInput -eq "delete") {
+		
+		# Remove all contents and subdirectories recursively
+		Remove-Item -Path "$FullDestination\*" -Recurse -Force
+
+		# If you also want to delete the root folder itself, uncomment the following line:
+		# Remove-Item -Path $FOLDERNAME -Force
+		
+
+		Write-Host "Deletion confirmed."
+
+
+	}
+ else {
+		Write-Host "Deletion canceled."
+	}
+
 }
 else {
 	Write-Output "Folder does not exist: $FullDestination"
 }
+
 
 
 # Ensure the destination directory exists; create it if it does not

@@ -47,6 +47,26 @@ public static class zz_Extensions_Node
       }
    }
 
+   private static int _nodeIdcounter = 0;
+
+   /// <summary>
+   /// for adding childern via script at "Dev Editor time", so they get visualized normally by the godot editor
+   /// </summary>
+   /// <param name="node"></param>
+   /// <param name="child"></param>
+   public static void _AddChild(this Node node, Node child, [CallerArgumentExpression("child")]string childVarName = "")
+   {
+      //if(child.Name is null)
+      {
+         child.Name = $"{childVarName}_{_nodeIdcounter++}"; //_{child.GetType().Name}
+      }
+      node.AddChild(child); 
+      //if (child.Owner is null)
+      //{
+      //  // child.Owner = node;// node.Owner ?? node;
+      //}
+   }
+
    // Extension method to find a child node of a specific type
    public static T _FindChild<T>(this Node node, bool recursive = false) where T : Node
    {

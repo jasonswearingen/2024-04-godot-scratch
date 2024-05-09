@@ -10,111 +10,46 @@ using test1.src.lib.DI;
 
 namespace test1;
 
+[SceneTree]
 [Tool]
 public partial class Main : DotNetScene
 {
    public World World { get; set; }
 
-   
-
-   public object InitTest = null;
-
-   public Main()
-   {
-      //GD.Print($"Main({this.GetInstanceId()}/{this.GetHashCode()}).ctor()  AutoLoad={DI.globalHost is not null}");
-      this._PrintInfo($".ctor() main, IsInsideTree={IsInsideTree()},  AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
-      
-   }
-
-   protected override void Dispose(bool disposing)
-   {
-      //GD.PrintRich($"[color=yellow]Main({this.GetInstanceId()}/{this.GetHashCode()}).Dispose({disposing})  AutoLoad={DI.globalHost is not null}");
-      //GD.PrintRich("[color=yellow]")
-      this._PrintInfo($".Dispose({disposing})  AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
-      //DI.globalHost.Dispose();
-      base.Dispose(disposing);
-   }
-
-   public override void _EnterTree()
-   {
-      InitTest = new();
-      this._PrintInfo($"._EnterTree() AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
-      if (Engine.IsEditorHint())
-      {
-         Callable.From(() =>
-         {
-            GD.Print($"! Main({this.GetInstanceId()}) => Callable.From  AutoLoad={DiStatic.globalHost is not null}");
-            //DI.globalHost.TryInit();
-         });
-         //
-      }
-
-      var loop = Engine.GetMainLoop();
-
-
-      base._EnterTree();
-   }
-
-   //private int _lastNotificationWhat = -1;
-   //public override void _Notification(int what)
-   //{
-   //   if (what != _lastNotificationWhat)
-   //   {
-   //      switch ((GodotNotifications)what)
-   //      {
-   //         case GodotNotifications.Node_WMMouseEnter:
-   //         case GodotNotifications.Node_WMMouseExit:
-   //         case GodotNotifications.Node_ApplicationFocusIn:
-   //         case GodotNotifications.Node_ApplicationFocusOut:
-   //         case GodotNotifications.Node_WMWindowFocusIn:
-   //         case GodotNotifications.Node_WMWindowFocusOut:
-   //            return;
-   //      }
-   //      _lastNotificationWhat = what;
-   //      this._PrintTrace($" ._Notification({(test1.src.lib.GodotNotifications)what}:{what}) @ {DateTime.Now.ToString("O")} AutoLoad={DI.globalHost is not null}");
-   //      //GD.Print($"Main({this.GetInstanceId()})._Notification({(test1.src.lib.GodotNotifications)what}:{what}) @ {DateTime.Now.ToString("O")} AutoLoad={DI.globalHost is not null}");
-   //   }
-
-   //   base._Notification(what);
-   //}
 
 
    // Called when the node enters the scene tree for the first time.
    public override void _Ready()
    {
-      this._PrintInfo($"._Ready() AutoLoad={DiStatic.globalHost is not null}  InitTest={InitTest is not null}");
-      //make an autoload DI Host
-      //AutoloadHost = new ApplicationHost() { };      
-      ////GetTree().Root.
-      //GetNode("/root").CallDeferred("add_child", AutoloadHost);
-      //AddChild(AutoloadHost);
+  
+      
 
 
       World = new();
       AddChild(World);
-      //if (Engine.IsEditorHint())
-      //{
-      //   GD.Print("Executing in the editor");
-      //}
-      //else
-      //{
-      //   GD.Print("Executing in the game");
-      //}
-      GD.Print($"Main({this.GetInstanceId()})._Ready() AutoLoad={DiStatic.globalHost is not null}");
-      ///GD.Print($"Engine Singletons = {Engine.GetSingletonList().Join()}");
 
-      
-      
-      var player = Player.Instantiate();
-      AddChild(player);
-    
+
+      //var player = Player.Instantiate();
+      //AddChild(player);
+
+      var cc3d = new CharacterController3d();
+      cc3d.Position = new Vector3(-1, 1, -1);
+      AddChild(cc3d);
+
    }
 
-   // Called every frame. 'delta' is the elapsed time since the previous frame.
    public override void _Process(double delta)
    {
-      //  GD.Print("Executing !!  Main process");
+      base._Process(delta);
 
-      //testService.Test();
+      using (DD3d.NewScopedConfig().SetThickness(0.05f))
+      {
+         //DD3d.DrawGrid(this.target.GlobalPosition, new(10,1,10), new(0,0,0), new(1,1));
+         //DD3d.DrawGrid(this.target.GlobalPosition, target.Basis.X * 10, target.Basis.Z * 10, new(10, 10), Colors.Gray);
+         DD3d.DrawArrow(Vector3.Zero, Vector3.Back * 10, Colors.Aqua, 0.1f);
+         DD3d.DrawArrow(Vector3.Zero, Vector3.Up * 10, Colors.Green, 0.1f);
+         DD3d.DrawArrow(Vector3.Zero, Vector3.Right*10, Colors.Red,0.1f);
+         //DD3d.DrawArrow(target.GlobalPosition, target.GlobalPosition + target.Forward(), Colors.YellowGreen);
+      }
    }
 }

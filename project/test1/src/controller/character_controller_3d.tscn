@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://e1i3ee4yfs5e"]
+
+[ext_resource type="Script" path="res://src/controller/CharacterController3d.cs" id="1_knj1s"]
+
+[node name="CharacterController3d" type="CharacterBody3D" node_paths=PackedStringArray("debugVis")]
+script = ExtResource("1_knj1s")
+debugVis = NodePath("debugVis_0")
