@@ -11,7 +11,10 @@ dumping ground for godot-csharp R&D
 - template project
 - epic game services
 
-
+- today
+  - debug-draw node
+  - freecam
+  - 
 
 # R&D starting points
 
@@ -24,3 +27,6 @@ dumping ground for godot-csharp R&D
 -  Godot Components - how to structure a game into manageable parts (Beginner/Intermediate) Godotneers : https://www.youtube.com/watch?v=W8gYHTjDCic
 -  
 
+## 3rd person character controller
+-  Using Your Feedback To Improve My Souls-Like Character Controller | Devlog 2 Snaiel https://www.youtube.com/watch?v=o8B_tuPhHtE
+- 

@@ -104,9 +104,8 @@ public partial class Main : DotNetScene
       ///GD.Print($"Engine Singletons = {Engine.GetSingletonList().Join()}");
 
       
-      var playerScene = ResourceLoader.Load<PackedScene>("src/character/Player.tscn");
-      var player = playerScene.Instantiate<Player>();
-      //var player = new Player();
+      
+      var player = Player.Instantiate();
       AddChild(player);
     
    }

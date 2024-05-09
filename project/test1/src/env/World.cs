@@ -12,9 +12,8 @@ namespace test1;
 [Tool]
 public partial class World : Node3D, IEzNode
 {
-
    //[EzAddChild]
-   public Map Map;//=new Map();// { get; private set; }
+   public Map Map; //=new Map();// { get; private set; }
 
    // Called when the node enters the scene tree for the first time.
    public override void _Ready()
@@ -41,19 +40,17 @@ public partial class World : Node3D, IEzNode
       worldEnv.Environment.FogLightColor = Colors.White;
 
 
-
       AddChild(worldEnv);
-
-
    }
 
    // Called every frame. 'delta' is the elapsed time since the previous frame.
    public override void _Process(double delta)
    {
       //   GD.Print("Executing !!  World process");
-
    }
+
    GodotNotifications _lastNotification;
+
    public override void _Notification(int what)
    {
       base._Notification(what);
@@ -72,20 +69,15 @@ public partial class World : Node3D, IEzNode
             case GodotNotifications.Node_WMWindowFocusOut:
                return;
          }
+
          _lastNotification = currentWhat;
          this._PrintTrace($"._Notification({currentWhat}:{what}) @ {DateTime.UtcNow.ToLocalTime().ToString("HH:mm:ss.fff")}");
       }
-
-
-
    }
-
 }
 
 public partial class Map : Node3D
 {
-
-
    //public Map()
    //{
    //   //var floor = new CsgBox3D();
@@ -138,6 +130,39 @@ public partial class Map : Node3D
          box.UseCollision = true;
          AddChild(box);
       }
+      {
+         //ramp
+         var ramp = new CsgBox3D();
+         ramp.Size = new(2, 0.5f, 4);
+         ramp.Position = new(5, 0.25f, 0);
+         ramp.RotateX(Mathf.DegToRad(30));
+         ramp._EzSetAlbedoTexture("res://assets/textures/grids/Light/texture_09.png");
+         ramp.UseCollision = true;
+         AddChild(ramp);
+      }
+      {
+         //stair
+         var location = new Vector3(-2, 0, 0);
+         var steps = 20;
+         var stepHeight = 0.2f;
+         var stepWidth = 2f;
+         var stepDepth = 0.5f;
+
+
+         for (int i = 0; i < steps; i++)
+         {
+            var stair = new CsgBox3D();
+            stair.Size = new(stepWidth, stepHeight, stepDepth);
+            stair.Position = new(location.X, location.Y + (i * stepHeight), location.Z + (i * stepDepth));
+            //stair.RotateX(Mathf.DegToRad(30));
+            stair._EzSetAlbedoTexture("res://assets/textures/grids/Red/texture_09.png");
+            stair.UseCollision = true;
+            AddChild(stair);
+         }
+
+
+
+      }
    }
 }
 
@@ -145,8 +170,7 @@ public partial class Floor : CsgBox3D, IEzNode
 {
    [EzInject] public TestService testService;
 
-   [EzInject]
-   private ILogger<Floor> _logger;
+   [EzInject] private ILogger<Floor> _logger;
 
    public override void _Ready()
    {
@@ -163,12 +187,12 @@ public partial class Floor : CsgBox3D, IEzNode
          if (_logger is not null)
          {
             _logger._EzDebug("Hello, WORLD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            
          }
          else
          {
             _GD.Log("_logger is null!", Colors.Red);
          }
+
          if (testService is not null)
          {
             testService.Test();
